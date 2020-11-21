@@ -18,7 +18,12 @@
 import React from "react";
 import classnames from "classnames";
 import { Link } from "react-router-dom";
-
+import DatePicker from 'react-date-picker';
+import Indices from './Indices.js'
+import Features from './Features.js'
+import YearlyFeatures from './YearlyFeatures.js'
+import YearlyIndices from './YearlyIndices.js'
+import './../../assets/css/styles.css'
 // reactstrap components
 import {
   Button,
@@ -46,18 +51,32 @@ import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import Footer from "components/Footer/Footer.js";
 
 class DroughtTool extends React.Component {
-  state = {
-    data : {level: 1,
-      allow_encrypt : "yes",
-      allow_decrypt : "yes"}
-  };
+  start = '1995-06';
+    end = '2017-05';
+    min_dt = new Date('1995-06');
+    max_dt = new Date('2017-05');
+    state = { 
+      data: [],
+      inp_data: [], 
+      yearly_data: [],
+      yearly_inp_data: [],
+      canvas_width: 1000,
+      canvas_height: 550,
+      threshold: -1.5,
+      left_dt: this.min_dt,
+      right_dt: this.max_dt,
+      type: "features",
+      discharge_file: "Upload discharge dataset", 
+      precip_file: "Upload precipitation dataset"
+    };
+
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onChange = this.onChange.bind(this); 
   }
   handleSubmit() {
-    var url = new URL("http://localhost:5000/calculate_wpi_csv");
+    var url = new URL("http://localhost:5000/");
     const data = new FormData();
     Object.keys(this.state.data).forEach(key => data.append(key, this.state.data[key]))
     const requestOptions = {
@@ -82,57 +101,218 @@ class DroughtTool extends React.Component {
         // }
     });
   }
-  onChange(e) {
-    if(e.target.id === 'nameField') {
-      let newState = Object.assign({}, this.state.data);
-      newState['name'] = e.target.value;
-      this.setState({data : newState});
+  uploadFile(file, is_discharge) {
+    var url;
+    if (is_discharge) {
+        this.setState({ discharge_file: file.name });
+        url = 'http://localhost:5000/send_discharge_data';
     }
-    else if(e.target.id === 'typeField') {
+    else {
+        this.setState({ precip_file: file.name });
+        url = 'http://localhost:5000/send_precip_data';
+    }
+    var formData = new FormData();
+
+    formData.append('file', file);
+    fetch(url, {
+        method: 'POST',
+        body: formData,
+    })
+        .then(response => response.json())
+        .then(success => {
+            console.log('success is', success);
+            if (!is_discharge) {
+                this.load_data();
+                this.load_indices();
+                this.load_yearly_data();
+                this.load_yearly_indices();
+            }
+        })
+        .catch(error => console.log(error)
+        );
+}
+  setFeatures = () => {
+    console.log("Set features called");
+    this.setState({ isindices: false });
+}
+
+setIndices = () => {
+    console.log("Set indices called");
+    this.setState({ isindices: true });
+}
+
+load_indices() {
+    var url = `http://localhost:5000/get_indices?start=${encodeURIComponent(this.start)}&end=${encodeURIComponent(this.end)}`
+    fetch(url, {
+        method: 'GET',
+    })
+        .then(response => {
+            console.log('response is', response);
+            return response.json();
+        })
+        .then(res => {
+            var data = [];
+            for (var i = 0; i < res.dates.length; i++) {
+                data.push({ 'date': res.dates[i], 'spi': res.spi[i], 'sdi': res.sdi[i] });
+            }
+            this.setState({ data: data });
+        })
+        .catch(error => console.log(error)
+        );
+}
+
+load_yearly_indices() {
+    var url = `http://localhost:5000/get_yearly_indices?start=${encodeURIComponent(this.start)}&end=${encodeURIComponent(this.end)}`
+    fetch(url, {
+        method: 'GET',
+    })
+        .then(response => {
+            console.log('response is', response);
+            return response.json();
+        })
+        .then(res => {
+            var data = [];
+            for (var i = 0; i < res.dates.length; i++) {
+                data.push({ 'date': res.dates[i], 'spi': res.spi[i], 'sdi': res.sdi[i] });
+            }
+            this.setState({ yearly_data: data });
+        })
+        .catch(error => console.log(error)
+        );
+}
+
+load_data = () => {
+    var url = `http://localhost:5000/get_data?start=${encodeURIComponent(this.start)}&end=${encodeURIComponent(this.end)}`
+    fetch(url, {
+        method: 'GET',
+    })
+        .then(response => {
+            console.log('/get_data response is', response);
+            return response.json();
+        })
+        .then(res => {
+            console.log(res);
+            var inp_data = [];
+            for (var i = 0; i < res.dates.length; i++) {
+                inp_data.push({ 'date': res.dates[i], 'discharge': res.discharge[i], 'precip': res.precip[i] });
+            }
+            console.log(inp_data);
+            this.setState({ inp_data: inp_data });
+        })
+        .catch(error => console.log(error)
+        );
+}
+
+load_yearly_data = () => {
+    var url = `http://localhost:5000/get_yearly_data?start=${encodeURIComponent(this.start)}&end=${encodeURIComponent(this.end)}`
+    fetch(url, {
+        method: 'GET',
+    })
+        .then(response => {
+            console.log('/get_yearly_data response is', response);
+            return response.json();
+        })
+        .then(res => {
+            console.log(res);
+            var inp_data = [];
+            for (var i = 0; i < res.dates.length; i++) {
+                inp_data.push({ 'date': res.dates[i], 'discharge': res.discharge[i], 'precip': res.precip[i] });
+            }
+            console.log(inp_data);
+            this.setState({ yearly_inp_data: inp_data });
+        })
+        .catch(error => console.log(error)
+        );
+}
+
+changeStartDate = (e) => {
+    this.start = e.toISOString().substring(0, 10);
+    this.setState({ left_dt: new Date(this.start) });
+    this.load_indices();
+    this.load_data();
+    this.load_yearly_data();
+    this.load_yearly_indices();
+}
+
+changeEndDate = (e) => {
+    this.end = e.toISOString().substring(0, 10);
+    this.setState({ right_dt: new Date(this.end) });
+    this.load_indices();
+    this.load_data();
+    this.load_yearly_data();
+    this.load_yearly_indices();
+}
+
+handleTypeChange = (e) => {
+    this.setState({type:e.target.value});
+}
+
+updateThreshold = (e) => {
+    this.setState({threshold: e.target.value});
+}
+
+  onChange(e) {
+    if(e.target.id === 'displayOption') {
       let newState = Object.assign({}, this.state.data);
       newState['type'] = e.target.value;
       this.setState({data : newState});
     }
-    else if(e.target.id === 'descriptionField') {
+    // if(e.target.id === 'nameField') {
+    //   let newState = Object.assign({}, this.state.data);
+    //   newState['name'] = e.target.value;
+    //   this.setState({data : newState});
+    // }
+    // else if(e.target.id === 'typeField') {
+    //   let newState = Object.assign({}, this.state.data);
+    //   newState['type'] = e.target.value;
+    //   this.setState({data : newState});
+    // }
+    // else if(e.target.id === 'descriptionField') {
+    //   let newState = Object.assign({}, this.state.data);
+    //   newState['description'] = e.target.value;
+    //   this.setState({data : newState});
+    // }
+    // else if(e.target.id === 'challengeField') {
+    //   let newState = Object.assign({}, this.state.data);
+    //   newState['challenge'] = e.target.value;
+    //   this.setState({data : newState});
+    // }
+    // else if(e.target.id === 'hintField') {
+    //   let newState = Object.assign({}, this.state.data);
+    //   newState['hint'] = e.target.value;
+    //   this.setState({data : newState});
+    // }
+    // else if(e.target.id === 'solutionField') {
+    //   let newState = Object.assign({}, this.state.data);
+    //   newState['solution'] = e.target.value;
+    //   this.setState({data : newState});
+    // }
+    // else if(e.target.id === 'levelField') {
+    //   let newState = Object.assign({}, this.state.data);
+    //   newState['level'] = e.target.value;
+    //   this.setState({data : newState});
+    // }
+    // else if(e.target.id === 'allowEncryptField') {
+    //   let newState = Object.assign({}, this.state.data);
+    //   newState['allow_encrypt'] = e.target.value;
+    //   this.setState({data : newState});
+    // }
+    // else if(e.target.id === 'allowDecryptField') {
+    //   let newState = Object.assign({}, this.state.data);
+    //   newState['allow_decrypt'] = e.target.value;
+    //   this.setState({data : newState});
+    // }
+    else if(e.target.id === "dischargeFile"){
       let newState = Object.assign({}, this.state.data);
-      newState['description'] = e.target.value;
+      newState['discharge'] = e.target.files[0];
+      console.log(newState['discharge'])
       this.setState({data : newState});
     }
-    else if(e.target.id === 'challengeField') {
+    else{
       let newState = Object.assign({}, this.state.data);
-      newState['challenge'] = e.target.value;
-      this.setState({data : newState});
-    }
-    else if(e.target.id === 'hintField') {
-      let newState = Object.assign({}, this.state.data);
-      newState['hint'] = e.target.value;
-      this.setState({data : newState});
-    }
-    else if(e.target.id === 'solutionField') {
-      let newState = Object.assign({}, this.state.data);
-      newState['solution'] = e.target.value;
-      this.setState({data : newState});
-    }
-    else if(e.target.id === 'levelField') {
-      let newState = Object.assign({}, this.state.data);
-      newState['level'] = e.target.value;
-      this.setState({data : newState});
-    }
-    else if(e.target.id === 'allowEncryptField') {
-      let newState = Object.assign({}, this.state.data);
-      newState['allow_encrypt'] = e.target.value;
-      this.setState({data : newState});
-    }
-    else if(e.target.id === 'allowDecryptField') {
-      let newState = Object.assign({}, this.state.data);
-      newState['allow_decrypt'] = e.target.value;
-      this.setState({data : newState});
-    }
-    else {
-      let newState = Object.assign({}, this.state.data);
-      newState['selectedFile'] = e.target.files[0];
-      console.log(newState['selectedFile'])
-      this.setState({data : newState});
+      newState['precipitation'] = e.target.files[0];
+      console.log(newState['precipitation'])
+      this.setState({data : newState});  
     }
   }
   componentDidMount() {
@@ -157,90 +337,66 @@ class DroughtTool extends React.Component {
                   <h2 className="title">Drought Tool</h2>
                   <Card className="card-register">
                     <CardBody>
-                      <Form className="form" onSubmit = {this.handleSubmit}>
+                      <Form className="form" onSubmit = {this.handleSubmit}><br></br>
                         <FormGroup>
-                          <Label for="nameField">Name</Label>
-                          <Input
-                            onChange={this.onChange}
-                            type="text"
-                            name="name"
-                            id="nameField"
-                            placeholder="Name your Algorithm"
-                            required
-                          />
-                        </FormGroup>
-                        <FormGroup>
-                          <Label for="typeField">Type</Label>
-                          <Input
-                            onChange={this.onChange}
-                            type="text"
-                            name="type"
-                            id="typeField"
-                            placeholder="Specify Algorithm Type"
-                            required
-                          />
-                        </FormGroup>
-
-                        <FormGroup>
-                          <Label for="descriptionField">Description</Label>
-                          <Input
-                            onChange={this.onChange}
-                            type="textarea"
-                            name="description"
-                            id="descriptionField"
-                            required
-                          />
-                        </FormGroup>
-
-                        <FormGroup>
-                          <Label for="challengeField">Challenge</Label>
-                          <Input
-                            onChange={this.onChange}
-                            type="textarea"
-                            name="challenge"
-                            id="challengeField"
-                            required
-                          />
-                        </FormGroup>
-
-                        <FormGroup>
-                          <Label for="hintField">Hint</Label>
-                          <Input
-                            onChange={this.onChange}
-                            type="textarea"
-                            name="hint"
-                            id="hintField"
-                          />
-                        </FormGroup>
-                        
-                        <FormGroup>
-                          <Label for="solutionField">Solution</Label>
-                          <Input
-                            onChange={this.onChange}
-                            type="text"
-                            name="solution"
-                            id="solutionField"
-                            placeholder="Enter solution of the challenge"
-                            required
-                          />
-                        </FormGroup>
-                        <FormGroup>
-                          <Label for="fileField">
+                        <Label for="dischargeFile">
                             <h4><Button
                               className="btn-icon btn-round"
                               color="primary"
                               type="button"
                             >
                               <i className="tim-icons icon-cloud-upload-94" />
-                            </Button>
-                            UPLOAD CSV</h4>
+                            </Button></h4>
                           </Label>
                           <Input
                             type="file"
                             name="file"
-                            id="fileField"
-                            onChange={this.onChange}
+                            id="dischargeFile"
+                            onChange={(e) => this.uploadFile(e.target.files[0], true)}
+                            />
+                        </FormGroup>
+                            <h4>{this.state.discharge_file}</h4>
+                        <FormGroup>
+                          <Label for="precipitationFile">
+                            <h4><Button
+                              className="btn-icon btn-round"
+                              color="primary"
+                              type="button"
+                            >
+                              <i className="tim-icons icon-cloud-upload-94" />
+                            </Button></h4>
+                          </Label>
+                          <Input
+                            type="file"
+                            name="file"
+                            id="precipitationFile"
+                            onChange={(e) => this.uploadFile(e.target.files[0], false)}
                           />
+                        </FormGroup>
+                            <h4>{this.state.precip_file}</h4>
+                        <FormGroup>
+                          <Label for="displayOption">Select display option</Label>
+                          <div>
+                          <select  style={{textAlignLast : "center", borderRadius: "1em", background : "transparent", width: "280px", color : "inherit", height : "40px"}} onChange={this.handleTypeChange}
+                            type="text"
+                            name="level"
+                            id="displayOption"
+                            required
+                          >
+                          <option value="features">Monthly Discharge & Precipitation</option>
+                          <option value="yearly_features">Yearly Discharge & Precipitation</option>
+                          <option value="indices">Monthly SPI & SDI</option>
+                          <option value="yearly_indices">Yearly SPI & SDI</option>
+                          </select> 
+                          </div>
+                        </FormGroup><br></br>
+                        <FormGroup>
+                        <Label for="startMonth">Start Month </Label><span>  </span>
+                          <DatePicker style={{height: '10vw', width : '10vw'}} clearIcon="" className="pointer" id="start_date" maxDetail="year" value={this.state.left_dt} minDate={this.min_dt} maxDate={this.max_dt} onChange={this.changeStartDate} />
+                        </FormGroup>
+                        <FormGroup>
+                        <Label for="endMonth">End Month</Label><span>  </span>
+                          <DatePicker clearIcon="" className="pointer" id="end_date" maxDetail="year" value={this.state.right_dt} minDate={this.min_dt} maxDate={this.max_dt} onChange={this.changeEndDate} />                        
                         </FormGroup>
 
                       <Button className="btn-round" color="primary" size="lg">
@@ -264,6 +420,15 @@ class DroughtTool extends React.Component {
                   </p>
                 </Col>
                 
+              </Row>
+              <Row>
+                <Col>
+                  { this.state.type === "indices" && <Indices data={this.state.data} threshold={this.state.threshold} width={this.state.canvas_width} height={this.state.canvas_height}/>}
+                  { this.state.type === "features" && <Features data={this.state.inp_data} width={this.state.canvas_width} height={this.state.canvas_height}/>}
+                  { this.state.type === "yearly_indices" && <YearlyIndices data={this.state.yearly_data} threshold={this.state.threshold} width={this.state.canvas_width} height={this.state.canvas_height}/>}
+                  { this.state.type === "yearly_features" && <YearlyFeatures data={this.state.yearly_inp_data} width={this.state.canvas_width} height={this.state.canvas_height}/>}
+
+                </Col>
               </Row>
             </Container>
             </div>

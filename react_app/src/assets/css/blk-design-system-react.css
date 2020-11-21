@@ -80,6 +80,13 @@ html {
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: block; }
 
+.react-datepicker__input-container {
+  width: inherit;
+}
+  
+.react-datepicker-wrapper {
+  width: 100%;
+}
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;

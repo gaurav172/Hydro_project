@@ -6,7 +6,64 @@ import os
 import subprocess
 from sqlalchemy.sql import text
 
+from flask import Flask, render_template, request, redirect, send_from_directory, jsonify
+from werkzeug.utils import secure_filename
+from .drought_indices import Drought
+import pandas as pd
+
 main = Blueprint('main', __name__)
+drought = Drought()
+
+@main.route('/send_discharge_data', methods = ['POST'])
+def send_discharge_data():
+	if request.method == 'POST':
+		df = pd.read_csv(request.files['file'],index_col=0, parse_dates=True, squeeze=True)
+		drought.set_discharge(df)
+		return jsonify(success=True)
+	return jsonify(success=False)
+
+@main.route('/send_precip_data', methods = ['POST'])
+def send_precip_data():
+	if request.method == 'POST':
+		df = pd.read_csv(request.files['file'],index_col=0, parse_dates=True, squeeze=True)
+		drought.set_precip(df)
+		return jsonify(success=True)
+	return jsonify(success=False)
+
+@main.route('/get_indices', methods = ['GET'])
+def get_indices():
+	if request.method == 'GET':
+		start, end = request.args.get('start'), request.args.get('end')
+		sdi, spi, dates = drought.get_indices(start, end)
+		return jsonify({'sdi':list(sdi), 'spi':list(spi), 'dates':dates})
+	return jsonify(success=False)
+
+@main.route('/get_data', methods = ['GET'])
+def get_data():
+	if request.method == 'GET':
+		start, end = request.args.get('start'), request.args.get('end')
+		dis, pre = drought.get_discharge(start, end), drought.get_precip(start, end)
+		dates = drought.get_dates(start, end)
+		return jsonify({'dates':dates, 'discharge':list(dis), 'precip':list(pre)})
+	return jsonify(success=False)
+
+@main.route('/get_yearly_indices', methods = ['GET'])
+def get_yearly_indices():
+	if request.method == 'GET':
+		start, end = request.args.get('start'), request.args.get('end')
+		sdi, spi, dates = drought.get_yearly_indices(start, end)
+		return jsonify({'sdi':list(sdi), 'spi':list(spi), 'dates':dates})
+	return jsonify(success=False)
+
+@main.route('/get_yearly_data', methods = ['GET'])
+def get_yearly_data():
+	if request.method == 'GET':
+		start, end = request.args.get('start'), request.args.get('end')
+		dis, pre = drought.get_yearly_discharge(start, end), drought.get_yearly_precip(start, end)
+		dates = drought.get_yearly_dates(start, end)
+		return jsonify({'dates':dates, 'discharge':list(dis), 'precip':list(pre)})
+	return jsonify(success=False)
+
 
 @main.route('/calculate_wpi_single', methods=['POST'])
 def calculate_wpi_single():
