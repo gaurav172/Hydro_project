@@ -47,10 +47,11 @@ import Footer from "components/Footer/Footer.js";
 
 class WPISingle extends React.Component {
   state = {
-    data : {level: 1,
-      allow_encrypt : "yes",
-      allow_decrypt : "yes"},
-    wpi : "None"
+    wpi : "None",
+    wpi_class: "None",
+    data: {
+
+    }
   };
   constructor(props) {
     super(props);
@@ -79,45 +80,75 @@ class WPISingle extends React.Component {
     .then(res => {
         console.log(res)
         this.setState({
-          wpi : res["wpi"]
+          wpi : res["wpi"],
+          wpi_class: res["wpi_class"]
         });
     });
   }
   onChange(e) {
-    if(e.target.id === 'nameField') {
+    if(e.target.id === 'turbidityField') {
       let newState = Object.assign({}, this.state.data);
-      newState['name'] = e.target.value;
+      newState['turbidity'] = e.target.value;
       this.setState({data : newState});
     }
-    else if(e.target.id === 'typeField') {
+    else if(e.target.id === 'phField') {
       let newState = Object.assign({}, this.state.data);
-      newState['type'] = e.target.value;
+      newState['pH'] = e.target.value;
       this.setState({data : newState});
     }
-    else if(e.target.id === 'descriptionField') {
+    else if(e.target.id === 'colorField') {
       let newState = Object.assign({}, this.state.data);
-      newState['description'] = e.target.value;
+      newState['color'] = e.target.value;
       this.setState({data : newState});
     }
-    else if(e.target.id === 'challengeField') {
+    else if(e.target.id === 'doField') {
       let newState = Object.assign({}, this.state.data);
-      newState['challenge'] = e.target.value;
+      newState['do'] = e.target.value;
       this.setState({data : newState});
     }
-    else if(e.target.id === 'hintField') {
+    else if(e.target.id === 'bodField') {
       let newState = Object.assign({}, this.state.data);
-      newState['hint'] = e.target.value;
+      newState['bod'] = e.target.value;
       this.setState({data : newState});
     }
-    else if(e.target.id === 'solutionField') {
+    else if(e.target.id === 'tdsField') {
       let newState = Object.assign({}, this.state.data);
-      newState['solution'] = e.target.value;
+      newState['tds'] = e.target.value;
+      this.setState({data : newState});
+    }
+    else if(e.target.id === 'hardnessField') {
+      let newState = Object.assign({}, this.state.data);
+      newState['hardness'] = e.target.value;
+      this.setState({data : newState});
+    }
+    else if(e.target.id === 'clField') {
+      let newState = Object.assign({}, this.state.data);
+      newState['cl'] = e.target.value;
+      this.setState({data : newState});
+    }
+    else if(e.target.id === 'no3Field') {
+      let newState = Object.assign({}, this.state.data);
+      newState['no3'] = e.target.value;
+      this.setState({data : newState});
+    }
+    else if(e.target.id === 'so4Field') {
+      let newState = Object.assign({}, this.state.data);
+      newState['so4'] = e.target.value;
+      this.setState({data : newState});
+    }
+    else if(e.target.id === 'coliField') {
+      let newState = Object.assign({}, this.state.data);
+      newState['coli'] = e.target.value;
+      this.setState({data : newState});
+    }
+    else if(e.target.id === 'asField') {
+      let newState = Object.assign({}, this.state.data);
+      newState['as'] = e.target.value;
       this.setState({data : newState});
     }
     else {
       let newState = Object.assign({}, this.state.data);
-      newState['selectedFile'] = e.target.files[0];
-      console.log(newState['selectedFile'])
+      newState['f'] = e.target.value;
       this.setState({data : newState});
     }
   }
@@ -145,69 +176,168 @@ class WPISingle extends React.Component {
                     <CardBody>
                       <Form className="form" onSubmit = {this.handleSubmit}>
                         <FormGroup>
-                          <Label for="nameField">Name</Label>
+                          <Label for="turbidityField">Turbidity</Label>
                           <Input
                             onChange={this.onChange}
-                            type="text"
-                            name="name"
-                            id="nameField"
-                            placeholder="Name your Algorithm"
-                            required
+                            type="number"
+                            min = "0"
+                            max = "500"
+                            step = "0.0001"
+                            name="turbidity"
+                            id="turbidityField"
+                            placeholder="Enter Turbidity value in NTU"
                           />
                         </FormGroup>
                         <FormGroup>
-                          <Label for="typeField">Type</Label>
+                          <Label for="phField">pH</Label>
                           <Input
                             onChange={this.onChange}
-                            type="text"
-                            name="type"
-                            id="typeField"
-                            placeholder="Specify Algorithm Type"
-                            required
+                            type="number"
+                            min = "0"
+                            max = "14"
+                            step = "0.0001"
+                            name="ph"
+                            id="phField"
+                            placeholder="Enter pH value"
                           />
                         </FormGroup>
-
                         <FormGroup>
-                          <Label for="descriptionField">Description</Label>
+                          <Label for="colorField">Color</Label>
                           <Input
                             onChange={this.onChange}
-                            type="textarea"
-                            name="description"
-                            id="descriptionField"
-                            required
+                            type="number"
+                            min = "10"
+                            max = "1200"
+                            step = "0.0001"
+                            name="color"
+                            id="colorField"
+                            placeholder="Enter Color Value in Hazen Units"
                           />
                         </FormGroup>
-
                         <FormGroup>
-                          <Label for="challengeField">Challenge</Label>
+                          <Label for="doField">DO(%)</Label>
                           <Input
                             onChange={this.onChange}
-                            type="textarea"
-                            name="challenge"
-                            id="challengeField"
-                            required
+                            type="number"
+                            min = "0"
+                            step = "0.0001"
+                            name="do"
+                            id="doField"
+                            placeholder="Enter % of Dissolved Oxygen"
                           />
                         </FormGroup>
-
                         <FormGroup>
-                          <Label for="hintField">Hint</Label>
+                          <Label for="bodField">BOD</Label>
                           <Input
                             onChange={this.onChange}
-                            type="textarea"
-                            name="hint"
-                            id="hintField"
+                            type="number"
+                            min = "0"
+                            max = "30"
+                            step = "0.0001"
+                            name="bod"
+                            id="bodField"
+                            placeholder="Enter BOD value in mg/L"
                           />
                         </FormGroup>
-                        
                         <FormGroup>
-                          <Label for="solutionField">Solution</Label>
+                          <Label for="tdsField">TDS</Label>
                           <Input
                             onChange={this.onChange}
-                            type="text"
-                            name="solution"
-                            id="solutionField"
-                            placeholder="Enter solution of the challenge"
-                            required
+                            type="number"
+                            min = "0"
+                            max = "6000"
+                            step = "0.0001"
+                            name="tds"
+                            id="tdsField"
+                            placeholder="Enter TDS value in mg/L"
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          <Label for="hardnessField">Hardness</Label>
+                          <Input
+                            onChange={this.onChange}
+                            type="number"
+                            min = "0"
+                            step = "0.0001"
+                            name="hardness"
+                            id="hardnessField"
+                            placeholder="Enter Hardness value in mg/L"
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          <Label for="clField">CL</Label>
+                          <Input
+                            onChange={this.onChange}
+                            type="number"
+                            min = "0"
+                            step = "0.0001"
+                            name="cl"
+                            id="clField"
+                            placeholder="Enter concentration level of CL in mg/L"
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          <Label for="no3Field">NO3</Label>
+                          <Input
+                            onChange={this.onChange}
+                            type="number"
+                            min = "0"
+                            max = "200"
+                            step = "0.0001"
+                            name="no3"
+                            id="no3Field"
+                            placeholder="Enter concentration level of NO3 in mg/L"
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          <Label for="so4Field">SO4</Label>
+                          <Input
+                            onChange={this.onChange}
+                            type="number"
+                            min = "0"
+                            max = "2000"
+                            step = "0.0001"
+                            name="so4"
+                            id="so4Field"
+                            placeholder="Enter concentration level of SO4 in mg/L"
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          <Label for="coliField">Coli</Label>
+                          <Input
+                            onChange={this.onChange}
+                            type="number"
+                            min = "0"
+                            step = "0.0001"
+                            name="coli"
+                            id="coliField"
+                            placeholder="Enter total coliform count in MPN/100ml"
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          <Label for="asField">As</Label>
+                          <Input
+                            onChange={this.onChange}
+                            type="number"
+                            min = "0"
+                            max = "1.3"
+                            step = "0.0001"
+                            name="as"
+                            id="asField"
+                            placeholder="Enter concentration level of Arsenic in mg/L"
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          <Label for="fField">F</Label>
+                          <Input
+                            onChange={this.onChange}
+                            type="number"
+                            min = "0"
+                            max = "10"
+                            step = "0.0001"
+                            name="f"
+                            id="fField"
+                            placeholder="Enter concentration level of Fluorine in mg/L"
                           />
                         </FormGroup>
                       <Button className="btn-round" color="primary" size="lg">
@@ -216,27 +346,20 @@ class WPISingle extends React.Component {
                       </Form>
                     </CardBody>
                   </Card>
-                  { this.state.wpi != "None" && <Card>
+                  { this.state.wpi_class != "None" && <Card>
                   <CardBody>
+                  <h3 className="display-3 text-white">
+                     {this.state.wpi_class}
+                    {/* <span className="text-white">be as defined below</span> */}
+                  </h3>
                   <font color = "white">
-                      <div>Water Pollution Index :- {this.state.wpi} </div>
+                  { this.state.wpi != "None" &&
+                   <div>Water Pollution Index :- {this.state.wpi} </div> }
                       </font>
                   </CardBody>
                   </Card>}
                 </Col>
-                <Col lg="4">
-                  <h3 className="display-3 text-white">
-                    The Algorithm Format should{" "}
-                    <span className="text-white">be as defined below</span>
-                  </h3>
-                  <p className="text-white mb-3">
-                    The Design System comes with four pre-built pages to help you
-                    get started faster. You can change the text and images and
-                    you're good to go. More importantly, looking at them will give
-                    you a picture of what you can built with this powerful Bootstrap
-                    4 Design System.
-                  </p>
-                </Col>
+                
                 
               </Row>
             </Container>

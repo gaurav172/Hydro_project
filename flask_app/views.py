@@ -5,6 +5,7 @@ import json
 import os
 import subprocess
 from sqlalchemy.sql import text
+from .wpi import calculate_wpi
 
 from flask import Flask, render_template, request, redirect, send_from_directory, jsonify
 from werkzeug.utils import secure_filename
@@ -67,11 +68,11 @@ def get_yearly_data():
 
 @main.route('/calculate_wpi_single', methods=['POST'])
 def calculate_wpi_single():
-
-    wpi_data = request.form
-    print(wpi_data)
-    wpi = {"wpi": "25"}
-    return json.dumps(wpi)
+	wpi_data = request.form
+	wpi_index, wpi_class = calculate_wpi(wpi_data)
+	wpi = {"wpi": wpi_index, "wpi_class": wpi_class}
+	print(wpi,wpi_class)
+	return json.dumps(wpi)
 
 @main.route('/calculate_wpi_csv', methods=['POST'])
 def calculate_wpi_csv():
