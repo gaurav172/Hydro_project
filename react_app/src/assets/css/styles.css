@@ -11,3 +11,9 @@
     z-index: 500;
     background-color: white;
   }
+
+  .slider { 
+      max-width: 300px;
+      cursor: pointer;
+  }
+  

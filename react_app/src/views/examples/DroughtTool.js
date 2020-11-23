@@ -62,8 +62,8 @@ class DroughtTool extends React.Component {
     inp_data: [],
     yearly_data: [],
     yearly_inp_data: [],
-    canvas_width: 1000/1792*window.innerWidth,
-    canvas_height: 0.6*window.innerHeight,
+    canvas_width: 1000 / 1792 * window.innerWidth,
+    canvas_height: 0.6 * window.innerHeight,
     threshold: -1.5,
     left_dt: this.min_dt,
     right_dt: this.max_dt,
@@ -79,10 +79,10 @@ class DroughtTool extends React.Component {
   }
 
   static getDerivedStateFromProps(props, current_state) {
-    if (current_state.canvas_width !== props.win.width*1000/1792 || current_state.canvas_height !== props.win.height*550/716) {
+    if (current_state.canvas_width !== props.win.width * 1000 / 1792 || current_state.canvas_height !== props.win.height * 550 / 716) {
       return {
-        canvas_width: props.win.width*1000/1792,
-        canvas_height: props.win.height*0.6
+        canvas_width: props.win.width * 1000 / 1792,
+        canvas_height: props.win.height * 0.6
       }
     }
     return null
@@ -361,7 +361,7 @@ class DroughtTool extends React.Component {
                               className="btn-icon btn-round"
                               color="primary"
                               type="button"
-                              style={{cursor:'pointer'}}
+                              style={{ cursor: 'pointer' }}
                             >
                               <i className="tim-icons icon-cloud-upload-94" />
                             </Button>  {this.state.discharge_file}</h4>
@@ -370,7 +370,7 @@ class DroughtTool extends React.Component {
                             type="file"
                             name="file"
                             id="dischargeFile"
-                            style={{cursor:'pointer'}}
+                            style={{ cursor: 'pointer' }}
                             onChange={(e) => this.uploadFile(e.target.files[0], true)}
                           />
                         </FormGroup>
@@ -389,7 +389,7 @@ class DroughtTool extends React.Component {
                             type="file"
                             name="file"
                             id="precipitationFile"
-                            style={{cursor:'pointer'}}
+                            style={{ cursor: 'pointer' }}
                             onChange={(e) => this.uploadFile(e.target.files[0], false)}
                           />
                         </FormGroup>
@@ -402,7 +402,7 @@ class DroughtTool extends React.Component {
                               name="level"
                               id="displayOption"
                               required
-                              style={{cursor:'pointer'}}
+                              style={{ cursor: 'pointer' }}
                             >
                               <option value="features">Monthly Discharge & Precipitation</option>
                               <option value="yearly_features">Yearly Discharge & Precipitation</option>
@@ -411,14 +411,30 @@ class DroughtTool extends React.Component {
                             </select>
                           </div>
                         </FormGroup><br></br>
-                        <FormGroup>
-                          <Label for="startMonth">Start Month  </Label><span>  </span>
-                          <DatePicker  calendarClassName="calendar" disableCalendar="true" clearIcon="" className="calendar" id="start_date" maxDetail="year" value={this.state.left_dt} minDate={this.min_dt} maxDate={this.max_dt} onChange={this.changeStartDate} />
-                        </FormGroup>
-                        <FormGroup>
-                          <Label for="endMonth">End Month  </Label><span>  </span>
-                          <DatePicker clearIcon="" disableCalendar="true" className="calendar" id="end_date" maxDetail="year" value={this.state.right_dt} minDate={this.min_dt} maxDate={this.max_dt} onChange={this.changeEndDate} />
-                        </FormGroup>
+                        <Container>
+                          <Row>
+                            <FormGroup>
+                              <Col>
+                                <Label for="startMonth">Start Month  </Label><span>  </span>
+                                <DatePicker calendarClassName="calendar" disableCalendar="true" clearIcon="" className="calendar" id="start_date" maxDetail="year" value={this.state.left_dt} minDate={this.min_dt} maxDate={this.max_dt} onChange={this.changeStartDate} />
+                              </Col>
+                            </FormGroup>
+                            <FormGroup>
+                              <Col>
+                                <Label for="endMonth">End Month  </Label><span>  </span>
+                                <DatePicker clearIcon="" disableCalendar="true" className="calendar" id="end_date" maxDetail="year" value={this.state.right_dt} minDate={this.min_dt} maxDate={this.max_dt} onChange={this.changeEndDate} />
+                              </Col>
+                            </FormGroup>
+                          </Row>
+                          <Row>
+                          <Col>
+                            <FormGroup controlId="formBasicRange">
+                                <Label>Drought Threshold</Label>
+                                <Input className="slider" type="range" step="0.1" min="-4" max="4" value={this.state.threshold} onChange={this.updateThreshold}/>
+                            </FormGroup>
+                        </Col>
+                          </Row>
+                        </Container>
                       </Form>
                     </CardBody>
                   </Card>
