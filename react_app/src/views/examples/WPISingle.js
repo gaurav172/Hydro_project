@@ -60,7 +60,7 @@ class WPISingle extends React.Component {
   }
   handleSubmit(event) {
     event.preventDefault()
-    var url = new URL("http://localhost:5000/calculate_wpi_single");
+    var url = "/calculate_wpi_single";
     const data = new FormData();
     Object.keys(this.state.data).forEach(key => data.append(key, this.state.data[key]))
     const requestOptions = {

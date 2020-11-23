@@ -59,7 +59,7 @@ class WPICsv extends React.Component {
     this.load_indices = this.load_indices.bind(this);
   }
   handleSubmit() {
-    // var url = new URL("http://localhost:5000/calculate_wpi_csv");
+    // var url = new URL("/calculate_wpi_csv");
     // const data = new FormData();
     // Object.keys(this.state.data).forEach(key => data.append(key, this.state.data[key]))
     // const requestOptions = {
@@ -89,7 +89,7 @@ class WPICsv extends React.Component {
 
 
   load_indices() {
-    var url = `http://localhost:5000/get_wpi_csv`
+    var url = `/get_wpi_csv`
     fetch(url, {
         method: 'GET',
     })
@@ -112,11 +112,11 @@ class WPICsv extends React.Component {
     var url;
     if (is_xlsx) {
         this.setState({ xlxs_file: file.name });
-        url = 'http://localhost:5000/send_wpi_xlxs';
+        url = '/send_wpi_xlxs';
     }
     else {
         this.setState({ ods_file: file.name });
-        url = 'http://localhost:5000/send_wpi_ods';
+        url = '/send_wpi_ods';
     }
     
     var formData = new FormData();
