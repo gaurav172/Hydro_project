@@ -6,7 +6,7 @@ import os
 import subprocess
 from sqlalchemy.sql import text
 from .wpi import calculate_wpi
-
+from .multiwpi import WPI
 from flask import Flask, render_template, request, redirect, send_from_directory, jsonify
 from werkzeug.utils import secure_filename
 from .drought_indices import Drought
@@ -14,6 +14,7 @@ import pandas as pd
 
 main = Blueprint('main', __name__)
 drought = Drought()
+wpiclass = WPI()
 
 @main.route('/send_discharge_data', methods = ['POST'])
 def send_discharge_data():
@@ -76,11 +77,29 @@ def calculate_wpi_single():
 
 @main.route('/calculate_wpi_csv', methods=['POST'])
 def calculate_wpi_csv():
-    wpi_data = request.form
-    print(wpi_data)
-    selectedFiles = request.files['selectedFile']
-    filename = "data.txt"
-    print(filename)
-    selectedFiles.save(filename)
-    return 'Success'    
+	if request.method == 'POST':
+		wpi = WPI(xlxs_filename, ods_filename)
+		return jsonify(success = True)    
+	return jsonify(success = False)
 
+
+
+@main.route('/send_wpi_xlxs', methods = ['POST'])
+def send_xlxs_data():
+	if request.method == 'POST':
+		xlxs = request.files['file']
+		xlxs_filename = secure_filename(xlxs.filename)
+		xlxs.save(xlxs_filename)
+		wpiclass.set_xlxs(xlxs_filename)
+		return jsonify(success=True)
+	return jsonify(success=False)
+
+@main.route('/send_wpi_ods', methods = ['POST'])
+def send_ods_data():
+	if request.method == 'POST':
+		ods = request.files['file']
+		ods_filename = secure_filename(ods.filename)
+		ods.save(ods_filename)
+		wpiclass.set_ods(ods_filename)
+		return jsonify(success=True)
+	return jsonify(success=False)

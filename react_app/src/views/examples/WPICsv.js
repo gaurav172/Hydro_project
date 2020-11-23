@@ -49,7 +49,9 @@ class WPICsv extends React.Component {
   state = {
     data : {level: 1,
       allow_encrypt : "yes",
-      allow_decrypt : "yes"}
+      allow_decrypt : "yes"},
+    xlxs_file: "Upload XLXS File", 
+    ods_file: "Upload  ODS File"
   };
   constructor(props) {
     super(props);
@@ -82,6 +84,35 @@ class WPICsv extends React.Component {
         // }
     });
   }
+
+
+  uploadFile(file, is_xlsx) {
+    var url;
+    if (is_xlsx) {
+        this.setState({ xlxs_file: file.name });
+        url = 'http://localhost:5000/send_wpi_xlsx';
+    }
+    else {
+        this.setState({ ods_file: file.name });
+        url = 'http://localhost:5000/send_wpi_ods';
+    }
+    
+    var formData = new FormData();
+
+    formData.append('file', file);
+    
+    fetch(url, {
+        method: 'POST',
+        body: formData,
+    })
+        .then(response => response.json())
+        .then(success => {
+            console.log('success is', success);
+        })
+        .catch(error => console.log(error)
+        );
+  }
+
   onChange(e) {
     if(e.target.id === 'nameField') {
       let newState = Object.assign({}, this.state.data);
@@ -158,116 +189,52 @@ class WPICsv extends React.Component {
                   <Card className="card-register">
                     <CardBody>
                       <Form className="form" onSubmit = {this.handleSubmit}>
-                        <FormGroup>
-                          <Label for="nameField">Name</Label>
-                          <Input
-                            onChange={this.onChange}
-                            type="text"
-                            name="name"
-                            id="nameField"
-                            placeholder="Name your Algorithm"
-                            required
-                          />
-                        </FormGroup>
-                        <FormGroup>
-                          <Label for="typeField">Type</Label>
-                          <Input
-                            onChange={this.onChange}
-                            type="text"
-                            name="type"
-                            id="typeField"
-                            placeholder="Specify Algorithm Type"
-                            required
-                          />
-                        </FormGroup>
-
-                        <FormGroup>
-                          <Label for="descriptionField">Description</Label>
-                          <Input
-                            onChange={this.onChange}
-                            type="textarea"
-                            name="description"
-                            id="descriptionField"
-                            required
-                          />
-                        </FormGroup>
-
-                        <FormGroup>
-                          <Label for="challengeField">Challenge</Label>
-                          <Input
-                            onChange={this.onChange}
-                            type="textarea"
-                            name="challenge"
-                            id="challengeField"
-                            required
-                          />
-                        </FormGroup>
-
-                        <FormGroup>
-                          <Label for="hintField">Hint</Label>
-                          <Input
-                            onChange={this.onChange}
-                            type="textarea"
-                            name="hint"
-                            id="hintField"
-                          />
-                        </FormGroup>
-                        
-                        <FormGroup>
-                          <Label for="solutionField">Solution</Label>
-                          <Input
-                            onChange={this.onChange}
-                            type="text"
-                            name="solution"
-                            id="solutionField"
-                            placeholder="Enter solution of the challenge"
-                            required
-                          />
-                        </FormGroup>
-                        <FormGroup>
-                          <Label for="fileField">
+                      <FormGroup>
+                        <Label for="xlsxFile">
                             <h4><Button
                               className="btn-icon btn-round"
                               color="primary"
                               type="button"
                             >
                               <i className="tim-icons icon-cloud-upload-94" />
-                            </Button>
-                            UPLOAD CSV</h4>
+                            </Button>  {this.state.xlxs_file}</h4> 
                           </Label>
                           <Input
                             type="file"
                             name="file"
-                            id="fileField"
-                            onChange={this.onChange}
-                          />
+                            id="xlsxFile"
+                            onChange={(e) => this.uploadFile(e.target.files[0], true)}
+                            />
                         </FormGroup>
 
+                      <FormGroup>  
+                        <Label for="odsFile">
+                            <h4><Button
+                              className="btn-icon btn-round"
+                              color="primary"
+                              type="button"
+                            >
+                              <i className="tim-icons icon-cloud-upload-94" />
+                            </Button>  {this.state.ods_file}</h4> 
+                          </Label>
+                          <Input
+                            type="file"
+                            name="file"
+                            id="odsFile"
+                            onChange={(e) => this.uploadFile(e.target.files[0], false)}
+                            />
+                        </FormGroup>
+                    
                       <Button className="btn-round" color="primary" size="lg">
                         Calculate WPI
                       </Button>
                       </Form>
                     </CardBody>
                   </Card>
-                </Col>
-                <Col lg="4">
-                  <h3 className="display-3 text-white">
-                    The Algorithm Format should{" "}
-                    <span className="text-white">be as defined below</span>
-                  </h3>
-                  <p className="text-white mb-3">
-                    The Design System comes with four pre-built pages to help you
-                    get started faster. You can change the text and images and
-                    you're good to go. More importantly, looking at them will give
-                    you a picture of what you can built with this powerful Bootstrap
-                    4 Design System.
-                  </p>
-                </Col>
-                
+                </Col>                
               </Row>
             </Container>
             </div>
-          <Footer />
         </div>
       </>
     );

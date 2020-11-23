@@ -67,7 +67,6 @@ class Drought:
 
     def get_yearly_indices(self, start, end):
         df_discharge, df_precip = self.df_discharge.loc[start: end], self.df_precip.loc[start: end]
-
         df_discharge_monthly_sum = df_discharge['Item'].resample('M').mean()
         df_discharge_yearly_sum = df_discharge_monthly_sum.resample('A-MAY').mean()
         df_discharge_yearly_mean = df_discharge_monthly_sum.mean()
