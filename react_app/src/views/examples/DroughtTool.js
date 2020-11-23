@@ -396,7 +396,7 @@ class DroughtTool extends React.Component {
 
                         <FormGroup>
                           <div style={{ cursor: 'pointer', textAlign: 'center' }}>
-                          <Label for="displayOption">Select display option</Label>
+                            <Label for="displayOption">Select display option</Label>
                             <select style={{ textAlignLast: "center", borderRadius: "1em", background: "transparent", width: "280px", color: "inherit", height: "40px" }} onChange={this.handleTypeChange}
                               type="text"
                               name="level"
@@ -413,40 +413,45 @@ class DroughtTool extends React.Component {
                         </FormGroup><br></br>
                         <Container>
                           <Row>
-                          <Col xs={4}>
+                            <Col xs={4}>
 
-                            <FormGroup>
+                              <FormGroup>
                                 <Label for="startMonth">Start Month  </Label><span>  </span>
                                 <DatePicker calendarClassName="calendar" disableCalendar="true" clearIcon="" className="calendar" id="start_date" maxDetail="year" value={this.state.left_dt} minDate={this.min_dt} maxDate={this.max_dt} onChange={this.changeStartDate} />
-                            </FormGroup>
+                              </FormGroup>
                             </Col>
                             <Col xs={4} md={{ span: 4, offset: 2 }}>
 
-                            <FormGroup>
+                              <FormGroup>
                                 <Label for="endMonth">End Month  </Label><span>  </span>
                                 <DatePicker clearIcon="" disableCalendar="true" className="calendar" id="end_date" maxDetail="year" value={this.state.right_dt} minDate={this.min_dt} maxDate={this.max_dt} onChange={this.changeEndDate} />
-                            </FormGroup>
+                              </FormGroup>
                             </Col>
 
                           </Row>
                           <Row>
-                          <Col>
-                            <FormGroup controlId="formBasicRange">
+                            <Col>
+                              <FormGroup controlId="formBasicRange">
                                 <Label>Drought Threshold</Label>
-                                <Input className="slider" type="range" step="0.1" min="-4" max="4" value={this.state.threshold} onChange={this.updateThreshold}/>
-                            </FormGroup>
-                        </Col>
+                                <Input className="slider" type="range" step="0.1" min="-4" max="4" value={this.state.threshold} onChange={this.updateThreshold} />
+                              </FormGroup>
+                            </Col>
                           </Row>
                         </Container>
                       </Form>
                     </CardBody>
                   </Card>
                 </Col>
-                <Col className="mb-lg-auto" lg="8">
-                  {this.state.type === "indices" && <Indices data={this.state.data} threshold={this.state.threshold} width={this.state.canvas_width} height={this.state.canvas_height} />}
-                  {this.state.type === "features" && <Features data={this.state.inp_data} width={this.state.canvas_width} height={this.state.canvas_height} />}
-                  {this.state.type === "yearly_indices" && <YearlyIndices data={this.state.yearly_data} threshold={this.state.threshold} width={this.state.canvas_width} height={this.state.canvas_height} />}
-                  {this.state.type === "yearly_features" && <YearlyFeatures data={this.state.yearly_inp_data} width={this.state.canvas_width} height={this.state.canvas_height} />}
+                    <Col className="mb-lg-auto" lg="8">
+                    {/* <Card className="card-register">
+                  <CardBody> */}
+
+                      {this.state.type === "indices" && <Indices data={this.state.data} threshold={this.state.threshold} width={this.state.canvas_width} height={this.state.canvas_height} />}
+                      {this.state.type === "features" && <Features data={this.state.inp_data} width={this.state.canvas_width} height={this.state.canvas_height} />}
+                      {this.state.type === "yearly_indices" && <YearlyIndices data={this.state.yearly_data} threshold={this.state.threshold} width={this.state.canvas_width} height={this.state.canvas_height} />}
+                      {this.state.type === "yearly_features" && <YearlyFeatures data={this.state.yearly_inp_data} width={this.state.canvas_width} height={this.state.canvas_height} />}
+                  {/* </CardBody>
+                </Card> */}
                 </Col>
               </Row>
             </Container>

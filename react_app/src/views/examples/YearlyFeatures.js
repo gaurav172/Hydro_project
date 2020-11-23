@@ -18,8 +18,8 @@ export default class YearlyFeatures extends Component {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="discharge" fill="#8884d8"/>
-                <Bar dataKey="precip" fill="#82ca9d" />
+                <Bar dataKey="discharge" fill="#88dd88"/>
+                <Bar dataKey="precip" fill="#dd88dd" />
             </BarChart>
         );
     }
