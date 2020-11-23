@@ -35,8 +35,7 @@ class PageHeader extends React.Component {
           <div className="content-center brand">
             <h1 className="h1-seo">Hydrology Tool</h1>
             <h3 className="d-none d-sm-block">
-            Team 3:
-              A simple tool for water quality and drought calculation.
+            Tool for water quality and drought calculations
             </h3>
           </div>
         </Container>
