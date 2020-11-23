@@ -75,11 +75,12 @@ def calculate_wpi_single():
 	print(wpi,wpi_class)
 	return json.dumps(wpi)
 
-@main.route('/calculate_wpi_csv', methods=['POST'])
+@main.route('/get_wpi_csv', methods=['GET'])
 def calculate_wpi_csv():
-	if request.method == 'POST':
-		wpi = WPI(xlxs_filename, ods_filename)
-		return jsonify(success = True)    
+	if request.method == 'GET':
+		wpivalues, time = wpiclass.calculate_wpi()
+		print(wpivalues)
+		return jsonify({'dates':time, 'wpi' : list(wpivalues)})
 	return jsonify(success = False)
 
 
@@ -89,7 +90,7 @@ def send_xlxs_data():
 	if request.method == 'POST':
 		xlxs = request.files['file']
 		xlxs_filename = secure_filename(xlxs.filename)
-		xlxs.save(xlxs_filename)
+		xlxs.save(xlxs_filename)	
 		wpiclass.set_xlxs(xlxs_filename)
 		return jsonify(success=True)
 	return jsonify(success=False)
