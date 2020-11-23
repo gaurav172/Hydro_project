@@ -399,11 +399,11 @@ class DroughtTool extends React.Component {
                         </FormGroup><br></br>
                         <FormGroup>
                           <Label for="startMonth">Start Month  </Label><span>  </span>
-                          <DatePicker  clearIcon="" className="pointer calendar" id="start_date" maxDetail="year" value={this.state.left_dt} minDate={this.min_dt} maxDate={this.max_dt} onChange={this.changeStartDate} />
+                          <DatePicker  calendarClassName="calendar" disableCalendar="true" clearIcon="" className="calendar" id="start_date" maxDetail="year" value={this.state.left_dt} minDate={this.min_dt} maxDate={this.max_dt} onChange={this.changeStartDate} />
                         </FormGroup>
                         <FormGroup>
                           <Label for="endMonth">End Month  </Label><span>  </span>
-                          <DatePicker clearIcon="" className="pointer calendar" id="end_date" maxDetail="year" value={this.state.right_dt} minDate={this.min_dt} maxDate={this.max_dt} onChange={this.changeEndDate} />
+                          <DatePicker clearIcon="" disableCalendar="true" className="calendar" id="end_date" maxDetail="year" value={this.state.right_dt} minDate={this.min_dt} maxDate={this.max_dt} onChange={this.changeEndDate} />
                         </FormGroup>
                       </Form>
                     </CardBody>
