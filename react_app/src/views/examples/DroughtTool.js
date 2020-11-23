@@ -24,6 +24,8 @@ import Features from './Features.js'
 import YearlyFeatures from './YearlyFeatures.js'
 import YearlyIndices from './YearlyIndices.js'
 import './../../assets/css/styles.css'
+import { withWindowState } from 'react-window-state';
+
 // reactstrap components
 import {
   Button,
@@ -60,8 +62,8 @@ class DroughtTool extends React.Component {
     inp_data: [],
     yearly_data: [],
     yearly_inp_data: [],
-    canvas_width: 1000,
-    canvas_height: 550,
+    canvas_width: 1000/1792*window.innerWidth,
+    canvas_height: 0.6*window.innerHeight,
     threshold: -1.5,
     left_dt: this.min_dt,
     right_dt: this.max_dt,
@@ -75,6 +77,17 @@ class DroughtTool extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
   }
+
+  static getDerivedStateFromProps(props, current_state) {
+    if (current_state.canvas_width !== props.win.width*1000/1792 || current_state.canvas_height !== props.win.height*550/716) {
+      return {
+        canvas_width: props.win.width*1000/1792,
+        canvas_height: props.win.height*0.6
+      }
+    }
+    return null
+  }
+
   handleSubmit() {
     var url = new URL("/");
     const data = new FormData();
@@ -325,6 +338,7 @@ class DroughtTool extends React.Component {
     document.body.classList.toggle("index-page");
   }
   render() {
+    console.log('height & width : ', this.state.canvas_height, this.state.canvas_width);
     return (
       <>
         <IndexNavbar />
@@ -424,4 +438,4 @@ class DroughtTool extends React.Component {
   }
 }
 
-export default DroughtTool;
+export default withWindowState(DroughtTool);
