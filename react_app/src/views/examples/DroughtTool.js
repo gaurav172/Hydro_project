@@ -52,28 +52,28 @@ import Footer from "components/Footer/Footer.js";
 
 class DroughtTool extends React.Component {
   start = '1995-06';
-    end = '2017-05';
-    min_dt = new Date('1995-06');
-    max_dt = new Date('2017-05');
-    state = { 
-      data: [],
-      inp_data: [], 
-      yearly_data: [],
-      yearly_inp_data: [],
-      canvas_width: 1000,
-      canvas_height: 550,
-      threshold: -1.5,
-      left_dt: this.min_dt,
-      right_dt: this.max_dt,
-      type: "features",
-      discharge_file: "Upload discharge dataset", 
-      precip_file: "Upload precipitation dataset"
-    };
+  end = '2017-05';
+  min_dt = new Date('1995-06');
+  max_dt = new Date('2017-05');
+  state = {
+    data: [],
+    inp_data: [],
+    yearly_data: [],
+    yearly_inp_data: [],
+    canvas_width: 1000,
+    canvas_height: 550,
+    threshold: -1.5,
+    left_dt: this.min_dt,
+    right_dt: this.max_dt,
+    type: "features",
+    discharge_file: "Upload discharge dataset",
+    precip_file: "Upload precipitation dataset"
+  };
 
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.onChange = this.onChange.bind(this); 
+    this.onChange = this.onChange.bind(this);
   }
   handleSubmit() {
     var url = new URL("/");
@@ -92,48 +92,48 @@ class DroughtTool extends React.Component {
     console.log(data.get("name"));
     console.log("url ^^^");
     fetch(url, requestOptions)
-    .then(response => {
+      .then(response => {
         console.log("received");
         console.log(response);
         console.log("done");
         // for(var key in response){
         //   console.log(key, response[key])
         // }
-    });
+      });
   }
-  
+
   uploadFile(file, is_discharge) {
     var url;
     if (is_discharge) {
-        this.setState({ discharge_file: file.name });
-        url = '/send_discharge_data';
+      this.setState({ discharge_file: file.name });
+      url = '/send_discharge_data';
     }
     else {
-        this.setState({ precip_file: file.name });
-        url = '/send_precip_data';
+      this.setState({ precip_file: file.name });
+      url = '/send_precip_data';
     }
-    
+
     var formData = new FormData();
 
     formData.append('file', file);
     fetch(url, {
-        method: 'POST',
-        body: formData,
+      method: 'POST',
+      body: formData,
     })
-        .then(response => response.json())
-        .then(success => {
-            console.log('success is', success);
-            if (!is_discharge) {
-                this.load_data();
-                this.load_indices();
-                this.load_yearly_data();
-                this.load_yearly_indices();
-            }
-        })
-        .catch(error => console.log(error)
-        );
-   }
-  
+      .then(response => response.json())
+      .then(success => {
+        console.log('success is', success);
+        if (!is_discharge) {
+          this.load_data();
+          this.load_indices();
+          this.load_yearly_data();
+          this.load_yearly_indices();
+        }
+      })
+      .catch(error => console.log(error)
+      );
+  }
+
   setFeatures = () => {
     console.log("Set features called");
     this.setState({ isindices: false });
@@ -147,85 +147,85 @@ class DroughtTool extends React.Component {
   load_indices() {
     var url = `/get_indices?start=${encodeURIComponent(this.start)}&end=${encodeURIComponent(this.end)}`
     fetch(url, {
-        method: 'GET',
+      method: 'GET',
     })
-        .then(response => {
-            console.log('response is', response);
-            return response.json();
-        })
-        .then(res => {
-            var data = [];
-            for (var i = 0; i < res.dates.length; i++) {
-                data.push({ 'date': res.dates[i], 'spi': res.spi[i], 'sdi': res.sdi[i] });
-            }
-            this.setState({ data: data });
-        })
-        .catch(error => console.log(error)
-        );
+      .then(response => {
+        console.log('response is', response);
+        return response.json();
+      })
+      .then(res => {
+        var data = [];
+        for (var i = 0; i < res.dates.length; i++) {
+          data.push({ 'date': res.dates[i], 'spi': res.spi[i], 'sdi': res.sdi[i] });
+        }
+        this.setState({ data: data });
+      })
+      .catch(error => console.log(error)
+      );
   }
 
   load_yearly_indices() {
     var url = `/get_yearly_indices?start=${encodeURIComponent(this.start)}&end=${encodeURIComponent(this.end)}`
     fetch(url, {
-        method: 'GET',
+      method: 'GET',
     })
-        .then(response => {
-            console.log('response is', response);
-            return response.json();
-        })
-        .then(res => {
-            var data = [];
-            for (var i = 0; i < res.dates.length; i++) {
-                data.push({ 'date': res.dates[i], 'spi': res.spi[i], 'sdi': res.sdi[i] });
-            }
-            this.setState({ yearly_data: data });
-        })
-        .catch(error => console.log(error)
-        );
+      .then(response => {
+        console.log('response is', response);
+        return response.json();
+      })
+      .then(res => {
+        var data = [];
+        for (var i = 0; i < res.dates.length; i++) {
+          data.push({ 'date': res.dates[i], 'spi': res.spi[i], 'sdi': res.sdi[i] });
+        }
+        this.setState({ yearly_data: data });
+      })
+      .catch(error => console.log(error)
+      );
   }
 
   load_data = () => {
     var url = `/get_data?start=${encodeURIComponent(this.start)}&end=${encodeURIComponent(this.end)}`
     fetch(url, {
-        method: 'GET',
+      method: 'GET',
     })
-        .then(response => {
-            console.log('/get_data response is', response);
-            return response.json();
-        })
-        .then(res => {
-            console.log(res);
-            var inp_data = [];
-            for (var i = 0; i < res.dates.length; i++) {
-                inp_data.push({ 'date': res.dates[i], 'discharge': res.discharge[i], 'precip': res.precip[i] });
-            }
-            console.log(inp_data);
-            this.setState({ inp_data: inp_data });
-        })
-        .catch(error => console.log(error)
-        );
+      .then(response => {
+        console.log('/get_data response is', response);
+        return response.json();
+      })
+      .then(res => {
+        console.log(res);
+        var inp_data = [];
+        for (var i = 0; i < res.dates.length; i++) {
+          inp_data.push({ 'date': res.dates[i], 'discharge': res.discharge[i], 'precip': res.precip[i] });
+        }
+        console.log(inp_data);
+        this.setState({ inp_data: inp_data });
+      })
+      .catch(error => console.log(error)
+      );
   }
 
   load_yearly_data = () => {
     var url = `/get_yearly_data?start=${encodeURIComponent(this.start)}&end=${encodeURIComponent(this.end)}`
     fetch(url, {
-        method: 'GET',
+      method: 'GET',
     })
-        .then(response => {
-            console.log('/get_yearly_data response is', response);
-            return response.json();
-        })
-        .then(res => {
-            console.log(res);
-            var inp_data = [];
-            for (var i = 0; i < res.dates.length; i++) {
-                inp_data.push({ 'date': res.dates[i], 'discharge': res.discharge[i], 'precip': res.precip[i] });
-            }
-            console.log(inp_data);
-            this.setState({ yearly_inp_data: inp_data });
-        })
-        .catch(error => console.log(error)
-        );
+      .then(response => {
+        console.log('/get_yearly_data response is', response);
+        return response.json();
+      })
+      .then(res => {
+        console.log(res);
+        var inp_data = [];
+        for (var i = 0; i < res.dates.length; i++) {
+          inp_data.push({ 'date': res.dates[i], 'discharge': res.discharge[i], 'precip': res.precip[i] });
+        }
+        console.log(inp_data);
+        this.setState({ yearly_inp_data: inp_data });
+      })
+      .catch(error => console.log(error)
+      );
   }
 
   changeStartDate = (e) => {
@@ -247,18 +247,18 @@ class DroughtTool extends React.Component {
   }
 
   handleTypeChange = (e) => {
-    this.setState({type:e.target.value});
+    this.setState({ type: e.target.value });
   }
 
   updateThreshold = (e) => {
-    this.setState({threshold: e.target.value});
+    this.setState({ threshold: e.target.value });
   }
 
   onChange(e) {
-    if(e.target.id === 'displayOption') {
+    if (e.target.id === 'displayOption') {
       let newState = Object.assign({}, this.state.data);
       newState['type'] = e.target.value;
-      this.setState({data : newState});
+      this.setState({ data: newState });
     }
     // if(e.target.id === 'nameField') {
     //   let newState = Object.assign({}, this.state.data);
@@ -305,17 +305,17 @@ class DroughtTool extends React.Component {
     //   newState['allow_decrypt'] = e.target.value;
     //   this.setState({data : newState});
     // }
-    else if(e.target.id === "dischargeFile"){
+    else if (e.target.id === "dischargeFile") {
       let newState = Object.assign({}, this.state.data);
       newState['discharge'] = e.target.files[0];
       console.log(newState['discharge'])
-      this.setState({data : newState});
+      this.setState({ data: newState });
     }
-    else{
+    else {
       let newState = Object.assign({}, this.state.data);
       newState['precipitation'] = e.target.files[0];
       console.log(newState['precipitation'])
-      this.setState({data : newState});  
+      this.setState({ data: newState });
     }
   }
   componentDidMount() {
@@ -329,7 +329,7 @@ class DroughtTool extends React.Component {
       <>
         <IndexNavbar />
         <div className="wrapper">
-            <div className="section section-signup">
+          <div className="section section-signup">
             <Container>
               <div className="squares square-1" />
               <div className="squares square-2" />
@@ -340,13 +340,14 @@ class DroughtTool extends React.Component {
                   <h2 className="title">Drought Tool</h2>
                   <Card className="card-register">
                     <CardBody>
-                      <Form className="form" onSubmit = {this.handleSubmit}><br></br>
+                      <Form className="form" onSubmit={this.handleSubmit}><br></br>
                         <FormGroup>
-                        <Label for="dischargeFile">
+                          <Label for="dischargeFile">
                             <h4><Button
                               className="btn-icon btn-round"
                               color="primary"
                               type="button"
+                              style={{cursor:'pointer'}}
                             >
                               <i className="tim-icons icon-cloud-upload-94" />
                             </Button>  {this.state.discharge_file}</h4>
@@ -355,10 +356,11 @@ class DroughtTool extends React.Component {
                             type="file"
                             name="file"
                             id="dischargeFile"
+                            style={{cursor:'pointer'}}
                             onChange={(e) => this.uploadFile(e.target.files[0], true)}
-                            />
+                          />
                         </FormGroup>
-                  
+
                         <FormGroup>
                           <Label for="precipitationFile">
                             <h4><Button
@@ -373,47 +375,49 @@ class DroughtTool extends React.Component {
                             type="file"
                             name="file"
                             id="precipitationFile"
+                            style={{cursor:'pointer'}}
                             onChange={(e) => this.uploadFile(e.target.files[0], false)}
                           />
                         </FormGroup>
-                            
+
                         <FormGroup>
                           <Label for="displayOption">Select display option</Label>
                           <div>
-                          <select  style={{textAlignLast : "center", borderRadius: "1em", background : "transparent", width: "280px", color : "inherit", height : "40px"}} onChange={this.handleTypeChange}
-                            type="text"
-                            name="level"
-                            id="displayOption"
-                            required
-                          >
-                          <option value="features">Monthly Discharge & Precipitation</option>
-                          <option value="yearly_features">Yearly Discharge & Precipitation</option>
-                          <option value="indices">Monthly SPI & SDI</option>
-                          <option value="yearly_indices">Yearly SPI & SDI</option>
-                          </select> 
+                            <select style={{ textAlignLast: "center", borderRadius: "1em", background: "transparent", width: "280px", color: "inherit", height: "40px" }} onChange={this.handleTypeChange}
+                              type="text"
+                              name="level"
+                              id="displayOption"
+                              required
+                              style={{cursor:'pointer'}}
+                            >
+                              <option value="features">Monthly Discharge & Precipitation</option>
+                              <option value="yearly_features">Yearly Discharge & Precipitation</option>
+                              <option value="indices">Monthly SPI & SDI</option>
+                              <option value="yearly_indices">Yearly SPI & SDI</option>
+                            </select>
                           </div>
                         </FormGroup><br></br>
                         <FormGroup>
-                        <Label for="startMonth">Start Month  </Label><span>  </span>
-                          <DatePicker style={{height: '10vw', width : '10vw'}} clearIcon="" className="pointer" id="start_date" maxDetail="year" value={this.state.left_dt} minDate={this.min_dt} maxDate={this.max_dt} onChange={this.changeStartDate} />
+                          <Label for="startMonth">Start Month  </Label><span>  </span>
+                          <DatePicker  clearIcon="" className="pointer calendar" id="start_date" maxDetail="year" value={this.state.left_dt} minDate={this.min_dt} maxDate={this.max_dt} onChange={this.changeStartDate} />
                         </FormGroup>
                         <FormGroup>
-                        <Label for="endMonth">End Month  </Label><span>  </span>
-                          <DatePicker clearIcon="" className="pointer" id="end_date" maxDetail="year" value={this.state.right_dt} minDate={this.min_dt} maxDate={this.max_dt} onChange={this.changeEndDate} />                        
+                          <Label for="endMonth">End Month  </Label><span>  </span>
+                          <DatePicker clearIcon="" className="pointer calendar" id="end_date" maxDetail="year" value={this.state.right_dt} minDate={this.min_dt} maxDate={this.max_dt} onChange={this.changeEndDate} />
                         </FormGroup>
                       </Form>
                     </CardBody>
                   </Card>
                 </Col>
-              <Col className="mb-lg-auto" lg="8">
-                  { this.state.type === "indices" && <Indices data={this.state.data} threshold={this.state.threshold} width={this.state.canvas_width} height={this.state.canvas_height}/>}
-                  { this.state.type === "features" && <Features data={this.state.inp_data} width={this.state.canvas_width} height={this.state.canvas_height}/>}
-                  { this.state.type === "yearly_indices" && <YearlyIndices data={this.state.yearly_data} threshold={this.state.threshold} width={this.state.canvas_width} height={this.state.canvas_height}/>}
-                  { this.state.type === "yearly_features" && <YearlyFeatures data={this.state.yearly_inp_data} width={this.state.canvas_width} height={this.state.canvas_height}/>}
+                <Col className="mb-lg-auto" lg="8">
+                  {this.state.type === "indices" && <Indices data={this.state.data} threshold={this.state.threshold} width={this.state.canvas_width} height={this.state.canvas_height} />}
+                  {this.state.type === "features" && <Features data={this.state.inp_data} width={this.state.canvas_width} height={this.state.canvas_height} />}
+                  {this.state.type === "yearly_indices" && <YearlyIndices data={this.state.yearly_data} threshold={this.state.threshold} width={this.state.canvas_width} height={this.state.canvas_height} />}
+                  {this.state.type === "yearly_features" && <YearlyFeatures data={this.state.yearly_inp_data} width={this.state.canvas_width} height={this.state.canvas_height} />}
                 </Col>
-                </Row>
+              </Row>
             </Container>
-            </div>
+          </div>
         </div>
       </>
     );

@@ -6,3 +6,8 @@
   .pointer {
       cursor: pointer;
   }
+
+  .calendar {
+    z-index: 500;
+    cursor: pointer;
+  }
