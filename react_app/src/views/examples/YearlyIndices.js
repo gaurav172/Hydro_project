@@ -18,9 +18,9 @@ export default class YearlyIndices extends Component {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <ReferenceLine y={this.props.threshold/10} label={`Drought Threshold : ${this.props.threshold/10}`} stroke="red" />
-                <Bar dataKey="sdi" fill="#dd88dd"/>
-                <Bar dataKey="spi" fill="#88dd88" />
+                <ReferenceLine y={this.props.threshold/10} label={{value:`Drought Threshold : ${this.props.threshold/10}`, fill: 'white'}} stroke="red" />
+                <Bar dataKey="sdi" fill="#88dd88"/>
+                <Bar dataKey="spi" fill="#dd88dd" />
             </BarChart>
         );
     }

@@ -18,6 +18,7 @@
 import React from "react";
 import classnames from "classnames";
 import { Link } from "react-router-dom";
+import './../../assets/css/styles.css'
 
 // reactstrap components
 import {
@@ -170,11 +171,14 @@ class WPISingle extends React.Component {
               <div className="squares square-3" />
               <div className="squares square-4" />
               <Row className="row-grid justify-content-between align-items-center">
-                <Col className="mb-lg-auto" lg="8">
-                  <h2 className="title">Calculate WPI for single sample</h2>
+                <Col className="mb-lg-auto" lg="12">
+                  <h2 className="wpititle title">Calculate WPI for single sample</h2>
                   <Card className="card-register">
                     <CardBody>
                       <Form className="form" onSubmit = {this.handleSubmit}>
+                      <Container>
+                      <Row>
+                      <Col>
                         <FormGroup>
                           <Label for="turbidityField">Turbidity</Label>
                           <Input
@@ -185,9 +189,11 @@ class WPISingle extends React.Component {
                             step = "0.0001"
                             name="turbidity"
                             id="turbidityField"
-                            placeholder="Enter Turbidity value in NTU"
+                            placeholder="NTU"
                           />
                         </FormGroup>
+                        </Col>
+                        <Col>
                         <FormGroup>
                           <Label for="phField">pH</Label>
                           <Input
@@ -198,9 +204,11 @@ class WPISingle extends React.Component {
                             step = "0.0001"
                             name="ph"
                             id="phField"
-                            placeholder="Enter pH value"
+                            placeholder="pH"
                           />
                         </FormGroup>
+                        </Col>
+                        <Col>
                         <FormGroup>
                           <Label for="colorField">Color</Label>
                           <Input
@@ -211,9 +219,10 @@ class WPISingle extends React.Component {
                             step = "0.0001"
                             name="color"
                             id="colorField"
-                            placeholder="Enter Color Value in Hazen Units"
+                            placeholder="Hazen Units"
                           />
                         </FormGroup>
+                        </Col>
                         <FormGroup>
                           <Label for="doField">DO(%)</Label>
                           <Input
@@ -223,9 +232,10 @@ class WPISingle extends React.Component {
                             step = "0.0001"
                             name="do"
                             id="doField"
-                            placeholder="Enter % of Dissolved Oxygen"
+                            placeholder="%"
                           />
                         </FormGroup>
+                        <Col>
                         <FormGroup>
                           <Label for="bodField">BOD</Label>
                           <Input
@@ -236,9 +246,13 @@ class WPISingle extends React.Component {
                             step = "0.0001"
                             name="bod"
                             id="bodField"
-                            placeholder="Enter BOD value in mg/L"
+                            placeholder="mg/L"
                           />
                         </FormGroup>
+                        </Col>
+                        </Row>
+                        <Row>
+                          <Col>
                         <FormGroup>
                           <Label for="tdsField">TDS</Label>
                           <Input
@@ -249,9 +263,11 @@ class WPISingle extends React.Component {
                             step = "0.0001"
                             name="tds"
                             id="tdsField"
-                            placeholder="Enter TDS value in mg/L"
+                            placeholder="mg/L"
                           />
                         </FormGroup>
+                        </Col>
+                        <Col>
                         <FormGroup>
                           <Label for="hardnessField">Hardness</Label>
                           <Input
@@ -261,9 +277,11 @@ class WPISingle extends React.Component {
                             step = "0.0001"
                             name="hardness"
                             id="hardnessField"
-                            placeholder="Enter Hardness value in mg/L"
+                            placeholder="mg/L"
                           />
                         </FormGroup>
+                        </Col>
+                        <Col>
                         <FormGroup>
                           <Label for="clField">CL</Label>
                           <Input
@@ -273,9 +291,11 @@ class WPISingle extends React.Component {
                             step = "0.0001"
                             name="cl"
                             id="clField"
-                            placeholder="Enter concentration level of CL in mg/L"
+                            placeholder="mg/L"
                           />
                         </FormGroup>
+                        </Col>
+                        <Col>
                         <FormGroup>
                           <Label for="no3Field">NO3</Label>
                           <Input
@@ -286,9 +306,13 @@ class WPISingle extends React.Component {
                             step = "0.0001"
                             name="no3"
                             id="no3Field"
-                            placeholder="Enter concentration level of NO3 in mg/L"
+                            placeholder="mg/L"
                           />
                         </FormGroup>
+                        </Col>
+                        </Row>
+                        <Row>
+                          <Col>
                         <FormGroup>
                           <Label for="so4Field">SO4</Label>
                           <Input
@@ -299,9 +323,11 @@ class WPISingle extends React.Component {
                             step = "0.0001"
                             name="so4"
                             id="so4Field"
-                            placeholder="Enter concentration level of SO4 in mg/L"
+                            placeholder="mg/L"
                           />
                         </FormGroup>
+                        </Col>
+                        <Col>
                         <FormGroup>
                           <Label for="coliField">Coli</Label>
                           <Input
@@ -311,9 +337,11 @@ class WPISingle extends React.Component {
                             step = "0.0001"
                             name="coli"
                             id="coliField"
-                            placeholder="Enter total coliform count in MPN/100ml"
+                            placeholder="MPN/100ml"
                           />
                         </FormGroup>
+                        </Col>
+                        <Col>
                         <FormGroup>
                           <Label for="asField">As</Label>
                           <Input
@@ -324,9 +352,11 @@ class WPISingle extends React.Component {
                             step = "0.0001"
                             name="as"
                             id="asField"
-                            placeholder="Enter concentration level of Arsenic in mg/L"
+                            placeholder="Arsenic in mg/L"
                           />
                         </FormGroup>
+                        </Col>
+                        <Col>
                         <FormGroup>
                           <Label for="fField">F</Label>
                           <Input
@@ -337,12 +367,17 @@ class WPISingle extends React.Component {
                             step = "0.0001"
                             name="f"
                             id="fField"
-                            placeholder="Enter concentration level of Fluorine in mg/L"
+                            placeholder="mg/L"
                           />
                         </FormGroup>
-                      <Button className="btn-round" color="primary" size="lg">
+                        </Col>
+                        </Row>
+                      <div className="wpibutton">
+                      <Button className="btn-round" color="primary" size="lg" >
                         Caculate WPI
                       </Button>
+                      </div>
+                      </Container>
                       </Form>
                     </CardBody>
                   </Card>

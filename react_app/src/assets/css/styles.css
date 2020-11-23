@@ -6,3 +6,21 @@
   .pointer {
       cursor: pointer;
   }
+
+  .calendar {
+    z-index: 500;
+    background-color: white;
+  }
+
+  .slider { 
+      max-width: 300px;
+      cursor: pointer;
+  }
+  
+  .wpititle{
+      text-align: center;
+  }
+
+  .wpibutton{
+    text-align: center;
+  }

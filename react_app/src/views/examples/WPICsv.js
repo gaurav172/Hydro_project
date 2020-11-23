@@ -45,6 +45,7 @@ import {
 // core components
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import Footer from "components/Footer/Footer.js";
+import { withWindowState } from 'react-window-state';
 
 class WPICsv extends React.Component {
   state = {
@@ -52,8 +53,8 @@ class WPICsv extends React.Component {
     pred_data : [],
     xlxs_file: "Upload XLXS File", 
     ods_file: "Upload  ODS File",
-    canvas_width: 1000,
-    canvas_height: 550,
+    canvas_width: 1000 / 1792 * window.innerWidth,
+    canvas_height: 0.6 * window.innerHeight,
     threshold : -1.5,
     type: "features"
   };
@@ -61,6 +62,16 @@ class WPICsv extends React.Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onChange = this.onChange.bind(this); 
+  }
+
+  static getDerivedStateFromProps(props, current_state) {
+    if (current_state.canvas_width !== props.win.width * 1000 / 1792 || current_state.canvas_height !== props.win.height * 550 / 716) {
+      return {
+        canvas_width: props.win.width * 1000 / 1792,
+        canvas_height: props.win.height * 0.6
+      }
+    }
+    return null
   }
 
   handleSubmit() {
@@ -223,7 +234,7 @@ class WPICsv extends React.Component {
               <div className="squares square-3" />
               <div className="squares square-4" />
               <Row className="row-grid justify-content-between align-items-center">
-                <Col className="mb-lg-auto" lg="8">
+                <Col className="mb-lg-auto" lg="4">
                   <h2 className="title">Calculate WPI for CSV</h2>
                   <Card className="card-register">
                     <CardBody>
@@ -242,6 +253,7 @@ class WPICsv extends React.Component {
                             type="file"
                             name="file"
                             id="xlsxFile"
+                            style={{ cursor: 'pointer' }}
                             onChange={(e) => this.uploadFile(e.target.files[0], true)}
                             />
                         </FormGroup>
@@ -260,6 +272,7 @@ class WPICsv extends React.Component {
                             type="file"
                             name="file"
                             id="odsFile"
+                            style={{ cursor: 'pointer' }}
                             onChange={(e) => this.uploadFile(e.target.files[0], false)}
                             />
                         </FormGroup>
@@ -285,7 +298,7 @@ class WPICsv extends React.Component {
                 </Col>                
               </Row>
               <Row>
-                <Col>
+                <Col className="mb-lg-auto" lg="8">
                   <Card>
                     <CardBody>
                       { this.state.type === "pred" && <Featureswpipred data={this.state.pred_data} width={this.state.canvas_width} height={this.state.canvas_height}/>}
@@ -302,4 +315,4 @@ class WPICsv extends React.Component {
   }
 }
 
-export default WPICsv;
+export default withWindowState(WPICsv);

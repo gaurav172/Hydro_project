@@ -18,8 +18,8 @@ export default class Features extends Component {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dot={false} dataKey="discharge" stroke="#dd88dd" activeDot={{ r: 8 }}/>
-                <Line type="monotone" dot={false} dataKey="precip" stroke="#88dd88" />
+                <Line type="monotone" dot={false} dataKey="discharge" stroke="#dd88dd" activeDot={{ r: 8 }} />
+                <Line type="monotone" dot={false} dataKey="precip" stroke="#88dd88" />            
             </LineChart>
         );
     }

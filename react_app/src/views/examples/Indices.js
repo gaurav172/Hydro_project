@@ -18,11 +18,10 @@ export default class Indices extends Component {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <ReferenceLine y={this.props.threshold} label={`Drought Threshold : ${this.props.threshold}`} stroke="red" />
-                    <Line type="monotone" dataKey="spi" stroke="#dd88dd" activeDot={{ r: 8 }} />
-                    <Line type="monotone" dataKey="sdi" stroke="#88dd88" />
+                    <ReferenceLine y={this.props.threshold} label={{value:`Drought Threshold : ${this.props.threshold}`, fill: 'white'}} stroke="red" />
+                    <Line type="monotone" dot={false} dataKey="spi" stroke="#88dd88" activeDot={{ r: 8 }} />
+                    <Line type="monotone" dot={false} dataKey="sdi" stroke="#dd88dd" />
                 </LineChart>
             );
         }
     }
-
