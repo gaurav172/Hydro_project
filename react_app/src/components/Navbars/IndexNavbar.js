@@ -207,7 +207,11 @@ class ComponentsNavbar extends React.Component {
                     <i className="tim-icons icon-pencil" />
                     WPI (Single Sample)
                   </DropdownItem>
-                </DropdownMenu>
+                  <DropdownItem tag={Link} to="/et" className="navitem">
+                    <i className="tim-icons icon-spaceship" />
+                    Evapotranspiration
+                  </DropdownItem>
+                  </DropdownMenu>
               </UncontrolledDropdown>
               {/* <NavItem>
                <Button

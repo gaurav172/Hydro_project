@@ -27,6 +27,7 @@ import Index from "views/Index.js";
 import WPISingle from "views/examples/WPISingle.js";
 import WPICsv from "./views/examples/WPICsv";
 import DroughtTool from "./views/examples/DroughtTool";
+import ET from "views/examples/ET";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -43,6 +44,10 @@ ReactDOM.render(
       <Route
         path="/wpi-csv"
         render={props => <WPICsv {...props} />}
+      />
+      <Route
+        path="/et"
+        render={props => <ET {...props} />}
       />
       <Redirect from="/" to="/components" />
     </Switch>

@@ -10,10 +10,12 @@ from .multiwpi import WPI
 from flask import Flask, render_template, request, redirect, send_from_directory, jsonify
 from werkzeug.utils import secure_filename
 from .drought_indices import Drought
+from .et import ET
 import pandas as pd
 
 main = Blueprint('main', __name__)
 drought = Drought()
+et_object = ET()
 wpiclass = WPI()
 
 @main.route('/', methods = ['GET'])
@@ -107,4 +109,18 @@ def send_ods_data():
 		ods.save(ods_filename)
 		wpiclass.set_ods(ods_filename)
 		return jsonify(success=True)
+	return jsonify(success=False)
+
+
+@main.route('/get_et', methods = ['GET'])
+def get_et():
+	if request.method == 'GET':
+		Tmin = float(request.args.get('tmin'))
+		Tmax = float(request.args.get('tmax'))
+		rH = float(request.args.get('rh'))
+		wind = float(request.args.get('wind'))
+		sunshine = float(request.args.get('sunshine'))
+		rs = float(request.args.get('rs'))
+		et_act, volume, dates = et_object.get_et(Tmin=Tmin, Tmax=Tmax, rH=rH, wind=wind, sunshine=sunshine, Rs=rs)
+		return jsonify({'volume':volume, 'et_act':et_act, 'dates':dates})
 	return jsonify(success=False)
