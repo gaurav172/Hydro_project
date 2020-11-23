@@ -364,7 +364,6 @@ class WPISingle extends React.Component {
               </Row>
             </Container>
             </div>
-          <Footer />
         </div>
       </>
     );

@@ -101,6 +101,7 @@ class DroughtTool extends React.Component {
         // }
     });
   }
+  
   uploadFile(file, is_discharge) {
     var url;
     if (is_discharge) {
@@ -111,6 +112,7 @@ class DroughtTool extends React.Component {
         this.setState({ precip_file: file.name });
         url = 'http://localhost:5000/send_precip_data';
     }
+    
     var formData = new FormData();
 
     formData.append('file', file);
@@ -130,18 +132,19 @@ class DroughtTool extends React.Component {
         })
         .catch(error => console.log(error)
         );
-}
+   }
+  
   setFeatures = () => {
     console.log("Set features called");
     this.setState({ isindices: false });
-}
+  }
 
-setIndices = () => {
+  setIndices = () => {
     console.log("Set indices called");
     this.setState({ isindices: true });
-}
+  }
 
-load_indices() {
+  load_indices() {
     var url = `http://localhost:5000/get_indices?start=${encodeURIComponent(this.start)}&end=${encodeURIComponent(this.end)}`
     fetch(url, {
         method: 'GET',
@@ -159,9 +162,9 @@ load_indices() {
         })
         .catch(error => console.log(error)
         );
-}
+  }
 
-load_yearly_indices() {
+  load_yearly_indices() {
     var url = `http://localhost:5000/get_yearly_indices?start=${encodeURIComponent(this.start)}&end=${encodeURIComponent(this.end)}`
     fetch(url, {
         method: 'GET',
@@ -179,9 +182,9 @@ load_yearly_indices() {
         })
         .catch(error => console.log(error)
         );
-}
+  }
 
-load_data = () => {
+  load_data = () => {
     var url = `http://localhost:5000/get_data?start=${encodeURIComponent(this.start)}&end=${encodeURIComponent(this.end)}`
     fetch(url, {
         method: 'GET',
@@ -201,9 +204,9 @@ load_data = () => {
         })
         .catch(error => console.log(error)
         );
-}
+  }
 
-load_yearly_data = () => {
+  load_yearly_data = () => {
     var url = `http://localhost:5000/get_yearly_data?start=${encodeURIComponent(this.start)}&end=${encodeURIComponent(this.end)}`
     fetch(url, {
         method: 'GET',
@@ -223,33 +226,33 @@ load_yearly_data = () => {
         })
         .catch(error => console.log(error)
         );
-}
+  }
 
-changeStartDate = (e) => {
+  changeStartDate = (e) => {
     this.start = e.toISOString().substring(0, 10);
     this.setState({ left_dt: new Date(this.start) });
     this.load_indices();
     this.load_data();
     this.load_yearly_data();
     this.load_yearly_indices();
-}
+  }
 
-changeEndDate = (e) => {
+  changeEndDate = (e) => {
     this.end = e.toISOString().substring(0, 10);
     this.setState({ right_dt: new Date(this.end) });
     this.load_indices();
     this.load_data();
     this.load_yearly_data();
     this.load_yearly_indices();
-}
+  }
 
-handleTypeChange = (e) => {
+  handleTypeChange = (e) => {
     this.setState({type:e.target.value});
-}
+  }
 
-updateThreshold = (e) => {
+  updateThreshold = (e) => {
     this.setState({threshold: e.target.value});
-}
+  }
 
   onChange(e) {
     if(e.target.id === 'displayOption') {
@@ -346,7 +349,7 @@ updateThreshold = (e) => {
                               type="button"
                             >
                               <i className="tim-icons icon-cloud-upload-94" />
-                            </Button></h4>
+                            </Button>  {this.state.discharge_file}</h4>
                           </Label>
                           <Input
                             type="file"
@@ -355,7 +358,7 @@ updateThreshold = (e) => {
                             onChange={(e) => this.uploadFile(e.target.files[0], true)}
                             />
                         </FormGroup>
-                            <h4>{this.state.discharge_file}</h4>
+                  
                         <FormGroup>
                           <Label for="precipitationFile">
                             <h4><Button
@@ -364,7 +367,7 @@ updateThreshold = (e) => {
                               type="button"
                             >
                               <i className="tim-icons icon-cloud-upload-94" />
-                            </Button></h4>
+                            </Button>  {this.state.precip_file}</h4>
                           </Label>
                           <Input
                             type="file"
@@ -373,7 +376,7 @@ updateThreshold = (e) => {
                             onChange={(e) => this.uploadFile(e.target.files[0], false)}
                           />
                         </FormGroup>
-                            <h4>{this.state.precip_file}</h4>
+                            
                         <FormGroup>
                           <Label for="displayOption">Select display option</Label>
                           <div>
@@ -406,20 +409,6 @@ updateThreshold = (e) => {
                     </CardBody>
                   </Card>
                 </Col>
-                <Col lg="4">
-                  <h3 className="display-3 text-white">
-                    The Algorithm Format should{" "}
-                    <span className="text-white">be as defined below</span>
-                  </h3>
-                  <p className="text-white mb-3">
-                    The Design System comes with four pre-built pages to help you
-                    get started faster. You can change the text and images and
-                    you're good to go. More importantly, looking at them will give
-                    you a picture of what you can built with this powerful Bootstrap
-                    4 Design System.
-                  </p>
-                </Col>
-                
               </Row>
               <Row>
                 <Col>
@@ -427,12 +416,10 @@ updateThreshold = (e) => {
                   { this.state.type === "features" && <Features data={this.state.inp_data} width={this.state.canvas_width} height={this.state.canvas_height}/>}
                   { this.state.type === "yearly_indices" && <YearlyIndices data={this.state.yearly_data} threshold={this.state.threshold} width={this.state.canvas_width} height={this.state.canvas_height}/>}
                   { this.state.type === "yearly_features" && <YearlyFeatures data={this.state.yearly_inp_data} width={this.state.canvas_width} height={this.state.canvas_height}/>}
-
                 </Col>
               </Row>
             </Container>
             </div>
-          <Footer />
         </div>
       </>
     );
