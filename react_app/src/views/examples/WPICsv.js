@@ -253,9 +253,6 @@ class WPICsv extends React.Component {
                             onChange={(e) => this.uploadFile(e.target.files[0], false)}
                             />
                         </FormGroup>
-                      <Button className="btn-round" color="primary" size="lg">
-                        Calculate WPI
-                      </Button>
                       </Form>
                     </CardBody>
                   </Card>
