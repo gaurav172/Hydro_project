@@ -296,15 +296,9 @@ class WPICsv extends React.Component {
                     </CardBody>
                   </Card>
                 </Col>                
-              </Row>
-              <Row>
                 <Col className="mb-lg-auto" lg="8">
-                  <Card>
-                    <CardBody>
                       { this.state.type === "pred" && <Featureswpipred data={this.state.pred_data} width={this.state.canvas_width} height={this.state.canvas_height}/>}
                       { this.state.type === "features" && <Featureswpi data={this.state.data} width={this.state.canvas_width} height={this.state.canvas_height}/>}
-                    </CardBody>
-                  </Card>
                    </Col>
               </Row>
             </Container>

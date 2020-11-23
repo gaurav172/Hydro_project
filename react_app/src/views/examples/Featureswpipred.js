@@ -19,7 +19,7 @@ export default class Featureswpipred extends Component {
                 <Tooltip />
                 <Legend />
                 <Line type="monotone" dot={false} dataKey="wpi" stroke="#88dd88" activeDot={{ r: 8 }}/>
-                <Line type="monotone" dot={false} dataKey="wpipred" stroke="#88dd88" />
+                <Line type="monotone" dot={false} dataKey="wpipred" stroke="#dd88dd" />
             </LineChart>
         );
     }
