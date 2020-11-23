@@ -79,7 +79,6 @@ def calculate_wpi_single():
 def calculate_wpi_csv():
 	if request.method == 'GET':
 		wpivalues, time = wpiclass.calculate_wpi()
-		print(wpivalues)
 		return jsonify({'dates':time, 'wpi' : list(wpivalues)})
 	return jsonify(success = False)
 
