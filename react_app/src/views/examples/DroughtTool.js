@@ -394,14 +394,13 @@ class DroughtTool extends React.Component {
                           </div>
                         </FormGroup><br></br>
                         <FormGroup>
-                        <Label for="startMonth">Start Month </Label><span>  </span>
+                        <Label for="startMonth">Start Month  </Label><span>  </span>
                           <DatePicker style={{height: '10vw', width : '10vw'}} clearIcon="" className="pointer" id="start_date" maxDetail="year" value={this.state.left_dt} minDate={this.min_dt} maxDate={this.max_dt} onChange={this.changeStartDate} />
                         </FormGroup>
                         <FormGroup>
-                        <Label for="endMonth">End Month</Label><span>  </span>
+                        <Label for="endMonth">End Month  </Label><span>  </span>
                           <DatePicker clearIcon="" className="pointer" id="end_date" maxDetail="year" value={this.state.right_dt} minDate={this.min_dt} maxDate={this.max_dt} onChange={this.changeEndDate} />                        
                         </FormGroup>
-
                       <Button className="btn-round" color="primary" size="lg">
                         Calculate WPI
                       </Button>

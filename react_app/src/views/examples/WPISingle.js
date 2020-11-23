@@ -354,7 +354,7 @@ class WPISingle extends React.Component {
                   </h3>
                   <font color = "white">
                   { this.state.wpi != "None" &&
-                   <div>Water Pollution Index :- {this.state.wpi} </div> }
+                   <div>Water Pollution Index: {this.state.wpi} </div> }
                       </font>
                   </CardBody>
                   </Card>}

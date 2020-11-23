@@ -83,8 +83,9 @@ def calculate_wpi_csv():
 	return jsonify(success = False)
 
 
+
 @main.route('/send_wpi_xlxs', methods = ['POST'])
-def send_discharge_data():
+def send_xlxs_data():
 	if request.method == 'POST':
 		xlxs = request.files['file']
 		xlxs_filename = secure_filename(xlxs.filename)
@@ -94,7 +95,7 @@ def send_discharge_data():
 	return jsonify(success=False)
 
 @main.route('/send_wpi_ods', methods = ['POST'])
-def send_precip_data():
+def send_ods_data():
 	if request.method == 'POST':
 		ods = request.files['file']
 		ods_filename = secure_filename(ods.filename)

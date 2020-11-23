@@ -45,7 +45,6 @@ class WPI:
 
     def set_ods(self, df):
         self.ods = df
-        print("yes")
         
     def calculate_wpi(self):
 
