@@ -213,7 +213,7 @@ class WPICsv extends React.Component {
               <div className="squares square-3" />
               <div className="squares square-4" />
               <Row className="row-grid justify-content-between align-items-center">
-                <Col className="mb-lg-auto" lg="8">
+                <Col className="mb-lg-auto" lg="4">
                   <h2 className="title">Calculate WPI for CSV</h2>
                   <Card className="card-register">
                     <CardBody>
@@ -232,6 +232,7 @@ class WPICsv extends React.Component {
                             type="file"
                             name="file"
                             id="xlsxFile"
+                            style={{ cursor: 'pointer' }}
                             onChange={(e) => this.uploadFile(e.target.files[0], true)}
                             />
                         </FormGroup>
@@ -250,6 +251,7 @@ class WPICsv extends React.Component {
                             type="file"
                             name="file"
                             id="odsFile"
+                            style={{ cursor: 'pointer' }}
                             onChange={(e) => this.uploadFile(e.target.files[0], false)}
                             />
                         </FormGroup>
@@ -257,9 +259,7 @@ class WPICsv extends React.Component {
                     </CardBody>
                   </Card>
                 </Col>                
-              </Row>
-              <Row>
-                <Col>
+                <Col className="mb-lg-auto" lg="8">
                    <Featureswpi data={this.state.data} width={this.state.canvas_width} height={this.state.canvas_height}/>
                 </Col>
               </Row>

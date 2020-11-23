@@ -17,3 +17,10 @@
       cursor: pointer;
   }
   
+  .wpititle{
+      text-align: center;
+  }
+
+  .wpibutton{
+    text-align: center;
+  }
