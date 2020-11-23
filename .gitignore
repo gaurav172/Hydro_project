@@ -1,2 +1,5 @@
 flask_app/__pycache__
 flask_app/__pycache__/
+flask_app/__pycache__/__init__.cpython-38.pyc
+flask_app/__pycache__/drought_indices.cpython-38.pyc
+flask_app/__pycache__/views.cpython-38.pyc
