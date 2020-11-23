@@ -19,8 +19,8 @@ export default class Indices extends Component {
                     <Tooltip />
                     <Legend />
                     <ReferenceLine y={this.props.threshold} label={`Drought Threshold : ${this.props.threshold}`} stroke="red" />
-                    <Line type="monotone" dataKey="spi" stroke="#8884d8" activeDot={{ r: 8 }} />
-                    <Line type="monotone" dataKey="sdi" stroke="#82ca9d" />
+                    <Line type="monotone" dataKey="spi" stroke="#dd88dd" activeDot={{ r: 8 }} />
+                    <Line type="monotone" dataKey="sdi" stroke="#88dd88" />
                 </LineChart>
             );
         }

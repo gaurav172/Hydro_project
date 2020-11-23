@@ -18,7 +18,7 @@ export default class Featureswpi extends Component {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dot={false} dataKey="wpi" stroke="#8884d8" activeDot={{ r: 8 }}/>
+                <Line type="monotone" dot={false} dataKey="wpi" stroke="#88dd88" activeDot={{ r: 8 }}/>
             </LineChart>
         );
     }

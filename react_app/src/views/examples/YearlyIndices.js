@@ -19,8 +19,8 @@ export default class YearlyIndices extends Component {
                 <Tooltip />
                 <Legend />
                 <ReferenceLine y={this.props.threshold/10} label={`Drought Threshold : ${this.props.threshold/10}`} stroke="red" />
-                <Bar dataKey="sdi" fill="#8884d8"/>
-                <Bar dataKey="spi" fill="#82ca9d" />
+                <Bar dataKey="sdi" fill="#dd88dd"/>
+                <Bar dataKey="spi" fill="#88dd88" />
             </BarChart>
         );
     }

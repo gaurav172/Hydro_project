@@ -260,8 +260,12 @@ class WPICsv extends React.Component {
               </Row>
               <Row>
                 <Col>
-                   <Featureswpi data={this.state.data} width={this.state.canvas_width} height={this.state.canvas_height}/>
-                </Col>
+                  <Card>
+                    <CardBody>
+                      <Featureswpi data={this.state.data} width={this.state.canvas_width} height={this.state.canvas_height}/>
+                    </CardBody>
+                  </Card>
+                   </Col>
               </Row>
             </Container>
             </div>

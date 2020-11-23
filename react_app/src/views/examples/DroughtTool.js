@@ -401,6 +401,11 @@ class DroughtTool extends React.Component {
                         <Label for="endMonth">End Month  </Label><span>  </span>
                           <DatePicker clearIcon="" className="pointer" id="end_date" maxDetail="year" value={this.state.right_dt} minDate={this.min_dt} maxDate={this.max_dt} onChange={this.changeEndDate} />                        
                         </FormGroup>
+                        <FormGroup>
+                          <Label for="droughtThresh">Drought Threshold</Label>
+                          <Input type="range" name="range" id="droughtThresh" step="0.1" min="-4" max="4" value={this.state.threshold} onChange={this.updateThreshold} />
+                          {/* <Control className="pointer" type="range" step="0.1" min="-4" max="4" value={this.state.threshold} onChange={this.updateThreshold}/> */}
+                        </FormGroup>
                       </Form>
                     </CardBody>
                   </Card>
@@ -408,10 +413,14 @@ class DroughtTool extends React.Component {
               </Row>
               <Row>
                 <Col>
-                  { this.state.type === "indices" && <Indices data={this.state.data} threshold={this.state.threshold} width={this.state.canvas_width} height={this.state.canvas_height}/>}
-                  { this.state.type === "features" && <Features data={this.state.inp_data} width={this.state.canvas_width} height={this.state.canvas_height}/>}
-                  { this.state.type === "yearly_indices" && <YearlyIndices data={this.state.yearly_data} threshold={this.state.threshold} width={this.state.canvas_width} height={this.state.canvas_height}/>}
-                  { this.state.type === "yearly_features" && <YearlyFeatures data={this.state.yearly_inp_data} width={this.state.canvas_width} height={this.state.canvas_height}/>}
+                <Card  className="card-register">
+                  <CardBody>
+                    { this.state.type === "indices" && <Indices data={this.state.data} threshold={this.state.threshold} width={this.state.canvas_width} height={this.state.canvas_height}/>}
+                    { this.state.type === "features" && <Features data={this.state.inp_data} width={this.state.canvas_width} height={this.state.canvas_height}/>}
+                    { this.state.type === "yearly_indices" && <YearlyIndices data={this.state.yearly_data} threshold={this.state.threshold} width={this.state.canvas_width} height={this.state.canvas_height}/>}
+                    { this.state.type === "yearly_features" && <YearlyFeatures data={this.state.yearly_inp_data} width={this.state.canvas_width} height={this.state.canvas_height}/>}
+                  </CardBody>
+                </Card>
                 </Col>
               </Row>
             </Container>
