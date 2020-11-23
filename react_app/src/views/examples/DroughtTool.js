@@ -76,7 +76,7 @@ class DroughtTool extends React.Component {
     this.onChange = this.onChange.bind(this); 
   }
   handleSubmit() {
-    var url = new URL("http://localhost:5000/");
+    var url = new URL("/");
     const data = new FormData();
     Object.keys(this.state.data).forEach(key => data.append(key, this.state.data[key]))
     const requestOptions = {
@@ -106,11 +106,11 @@ class DroughtTool extends React.Component {
     var url;
     if (is_discharge) {
         this.setState({ discharge_file: file.name });
-        url = 'http://localhost:5000/send_discharge_data';
+        url = '/send_discharge_data';
     }
     else {
         this.setState({ precip_file: file.name });
-        url = 'http://localhost:5000/send_precip_data';
+        url = '/send_precip_data';
     }
     
     var formData = new FormData();
@@ -145,7 +145,7 @@ class DroughtTool extends React.Component {
   }
 
   load_indices() {
-    var url = `http://localhost:5000/get_indices?start=${encodeURIComponent(this.start)}&end=${encodeURIComponent(this.end)}`
+    var url = `/get_indices?start=${encodeURIComponent(this.start)}&end=${encodeURIComponent(this.end)}`
     fetch(url, {
         method: 'GET',
     })
@@ -165,7 +165,7 @@ class DroughtTool extends React.Component {
   }
 
   load_yearly_indices() {
-    var url = `http://localhost:5000/get_yearly_indices?start=${encodeURIComponent(this.start)}&end=${encodeURIComponent(this.end)}`
+    var url = `/get_yearly_indices?start=${encodeURIComponent(this.start)}&end=${encodeURIComponent(this.end)}`
     fetch(url, {
         method: 'GET',
     })
@@ -185,7 +185,7 @@ class DroughtTool extends React.Component {
   }
 
   load_data = () => {
-    var url = `http://localhost:5000/get_data?start=${encodeURIComponent(this.start)}&end=${encodeURIComponent(this.end)}`
+    var url = `/get_data?start=${encodeURIComponent(this.start)}&end=${encodeURIComponent(this.end)}`
     fetch(url, {
         method: 'GET',
     })
@@ -207,7 +207,7 @@ class DroughtTool extends React.Component {
   }
 
   load_yearly_data = () => {
-    var url = `http://localhost:5000/get_yearly_data?start=${encodeURIComponent(this.start)}&end=${encodeURIComponent(this.end)}`
+    var url = `/get_yearly_data?start=${encodeURIComponent(this.start)}&end=${encodeURIComponent(this.end)}`
     fetch(url, {
         method: 'GET',
     })
