@@ -16,6 +16,10 @@ main = Blueprint('main', __name__)
 drought = Drought()
 wpiclass = WPI()
 
+@main.route('/', methods = ['GET'])
+def home():
+	return 'Welcome to backend'
+
 @main.route('/send_discharge_data', methods = ['POST'])
 def send_discharge_data():
 	if request.method == 'POST':
