@@ -395,14 +395,14 @@ class DroughtTool extends React.Component {
                         </FormGroup>
 
                         <FormGroup>
+                          <div style={{ cursor: 'pointer', textAlign: 'center' }}>
                           <Label for="displayOption">Select display option</Label>
-                          <div>
                             <select style={{ textAlignLast: "center", borderRadius: "1em", background: "transparent", width: "280px", color: "inherit", height: "40px" }} onChange={this.handleTypeChange}
                               type="text"
                               name="level"
                               id="displayOption"
                               required
-                              style={{ cursor: 'pointer' }}
+                              style={{ cursor: 'pointer', textAlign: 'center' }}
                             >
                               <option value="features">Monthly Discharge & Precipitation</option>
                               <option value="yearly_features">Yearly Discharge & Precipitation</option>
@@ -413,18 +413,21 @@ class DroughtTool extends React.Component {
                         </FormGroup><br></br>
                         <Container>
                           <Row>
+                          <Col xs={4}>
+
                             <FormGroup>
-                              <Col>
                                 <Label for="startMonth">Start Month  </Label><span>  </span>
                                 <DatePicker calendarClassName="calendar" disableCalendar="true" clearIcon="" className="calendar" id="start_date" maxDetail="year" value={this.state.left_dt} minDate={this.min_dt} maxDate={this.max_dt} onChange={this.changeStartDate} />
-                              </Col>
                             </FormGroup>
+                            </Col>
+                            <Col xs={4} md={{ span: 4, offset: 2 }}>
+
                             <FormGroup>
-                              <Col>
                                 <Label for="endMonth">End Month  </Label><span>  </span>
                                 <DatePicker clearIcon="" disableCalendar="true" className="calendar" id="end_date" maxDetail="year" value={this.state.right_dt} minDate={this.min_dt} maxDate={this.max_dt} onChange={this.changeEndDate} />
-                              </Col>
                             </FormGroup>
+                            </Col>
+
                           </Row>
                           <Row>
                           <Col>
