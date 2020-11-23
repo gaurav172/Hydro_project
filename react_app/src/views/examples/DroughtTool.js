@@ -401,9 +401,6 @@ class DroughtTool extends React.Component {
                         <Label for="endMonth">End Month  </Label><span>  </span>
                           <DatePicker clearIcon="" className="pointer" id="end_date" maxDetail="year" value={this.state.right_dt} minDate={this.min_dt} maxDate={this.max_dt} onChange={this.changeEndDate} />                        
                         </FormGroup>
-                      <Button className="btn-round" color="primary" size="lg">
-                        Calculate
-                      </Button>
                       </Form>
                     </CardBody>
                   </Card>

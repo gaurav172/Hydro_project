@@ -50,40 +50,43 @@ class WPICsv extends React.Component {
     data : [],
     xlxs_file: "Upload XLXS File", 
     ods_file: "Upload  ODS File",
-    type: "null"
+    canvas_width: 1000,
+    canvas_height: 550,
+    threshold : -1.5,
+    type: "features"
   };
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onChange = this.onChange.bind(this); 
-    this.load_indices = this.load_indices.bind(this);
   }
+
   handleSubmit() {
-    // var url = new URL("/calculate_wpi_csv");
-    // const data = new FormData();
-    // Object.keys(this.state.data).forEach(key => data.append(key, this.state.data[key]))
-    // const requestOptions = {
-    //   method: 'POST',
-    //   // headers: {'Content-Type': 'application/json'},
-    //   body: data,
-    // };
-    // // for(var key of requestOptions['body'].entries())
-    // // {
-    // //   console.log(key[0], "F", key[1]);
-    // // }
-    // console.log(this.state.data);
-    // console.log(data.get("name"));
-    // console.log("url ^^^");
-    // fetch(url, requestOptions)
-    // .then(response => {
-    //     console.log("received");
-    //     console.log(response);
-    //     console.log("done");
-    //     // for(var key in response){
-    //     //   console.log(key, response[key])
-    //     // }
-    // });
-    this.load_indices();
+    var url = "/calculate_wpi_csv";
+    const data = new FormData();
+    Object.keys(this.state.data).forEach(key => data.append(key, this.state.data[key]))
+    const requestOptions = {
+      method: 'POST',
+      // headers: {'Content-Type': 'application/json'},
+      body: data,
+    };
+    // for(var key of requestOptions['body'].entries())
+    // {
+    //   console.log(key[0], "F", key[1]);
+    // }
+    console.log(this.state.data);
+    console.log(data.get("name"));
+    console.log("url ^^^");
+    fetch(url, requestOptions)
+    .then(response => {
+        console.log("received");
+        console.log(response);
+        console.log("done");
+        // for(var key in response){
+        //   console.log(key, response[key])
+        // }
+    });
+   // this.load_indices();
   }
 
 
@@ -102,6 +105,7 @@ class WPICsv extends React.Component {
             for (var i = 0; i < res.dates.length; i++) {
                 data.push({ 'date': res.dates[i], 'wpi': res.wpi[i]});
             }
+            console.log(data);
             this.setState({ data: data });
         })
         .catch(error => console.log(error)
@@ -130,6 +134,9 @@ class WPICsv extends React.Component {
         .then(response => response.json())
         .then(success => {
             console.log('success is', success);
+            if (!is_xlsx) {
+                this.load_indices();
+            }
         })
         .catch(error => console.log(error)
         );
@@ -246,9 +253,6 @@ class WPICsv extends React.Component {
                             onChange={(e) => this.uploadFile(e.target.files[0], false)}
                             />
                         </FormGroup>
-                      <Button className="btn-round" color="primary" size="lg">
-                        Calculate WPI
-                      </Button>
                       </Form>
                     </CardBody>
                   </Card>
