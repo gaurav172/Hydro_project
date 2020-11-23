@@ -402,8 +402,8 @@ class DroughtTool extends React.Component {
                               name="level"
                               id="displayOption"
                               required
-                              style={{ cursor: 'pointer', textAlign: 'center' }}
-                            >
+                              style={{ cursor: 'pointer', textAlign: 'center', borderRadius: "1em",width: "280px", color : "inherit",  height : "30px"}}
+                              >
                               <option value="features">Monthly Discharge & Precipitation</option>
                               <option value="yearly_features">Yearly Discharge & Precipitation</option>
                               <option value="indices">Monthly SPI & SDI</option>

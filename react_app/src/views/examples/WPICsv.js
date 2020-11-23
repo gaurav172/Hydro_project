@@ -280,10 +280,11 @@ class WPICsv extends React.Component {
                         <FormGroup>
                           <Label for="displayOption">Select display option</Label>
                           <div>
-                          <select  style={{textAlignLast : "center", borderRadius: "1em", background : "transparent", width: "280px", color : "inherit", height : "40px"}} onChange={this.handleTypeChange}
+                          <select  style={{textAlignLast : "center", borderRadius: "1em", background : "transparent", width: "280px", color : "inherit", height : "20px"}} onChange={this.handleTypeChange}
                             type="text"
                             name="level"
                             id="displayOption"
+                            style={{ cursor: 'pointer', textAlign: 'center', borderRadius: "1em",width: "280px", color : "inherit",  height : "30px"}}
                             required
                           >
                           <option value="features">WPI Values</option>
