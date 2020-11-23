@@ -278,7 +278,7 @@ class ET extends React.Component {
                   </Card>
                 </Col>
                 <Col className="mb-lg-auto" lg="8">
-                  <Et_graph data={this.state.data} width={this.state.canvas_width} height={this.state.canvas_height} />
+                  {this.state.data.length !== 0 && <Et_graph data={this.state.data} width={this.state.canvas_width} height={this.state.canvas_height} />}
                 </Col>
               </Row>
             </Container>
