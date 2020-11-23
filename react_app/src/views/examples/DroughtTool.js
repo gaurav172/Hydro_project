@@ -336,7 +336,7 @@ class DroughtTool extends React.Component {
               <div className="squares square-3" />
               <div className="squares square-4" />
               <Row className="row-grid justify-content-between align-items-center">
-                <Col className="mb-lg-auto" lg="8">
+                <Col className="mb-lg-auto" lg="4">
                   <h2 className="title">Drought Tool</h2>
                   <Card className="card-register">
                     <CardBody>
@@ -405,15 +405,13 @@ class DroughtTool extends React.Component {
                     </CardBody>
                   </Card>
                 </Col>
-              </Row>
-              <Row>
-                <Col>
+              <Col className="mb-lg-auto" lg="8">
                   { this.state.type === "indices" && <Indices data={this.state.data} threshold={this.state.threshold} width={this.state.canvas_width} height={this.state.canvas_height}/>}
                   { this.state.type === "features" && <Features data={this.state.inp_data} width={this.state.canvas_width} height={this.state.canvas_height}/>}
                   { this.state.type === "yearly_indices" && <YearlyIndices data={this.state.yearly_data} threshold={this.state.threshold} width={this.state.canvas_width} height={this.state.canvas_height}/>}
                   { this.state.type === "yearly_features" && <YearlyFeatures data={this.state.yearly_inp_data} width={this.state.canvas_width} height={this.state.canvas_height}/>}
                 </Col>
-              </Row>
+                </Row>
             </Container>
             </div>
         </div>
