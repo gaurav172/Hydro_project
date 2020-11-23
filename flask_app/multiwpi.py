@@ -469,7 +469,9 @@ class WPI:
         return pollutionIndexPerMonth, time
         #return pngImageB64String, linImage, barImage
 
-    def get_predictions_plot(self, csv_file):
+    def get_predictions_plot(self):
+
+        csv_file = pd.read_csv("PollutionIndexDataSet.csv")
 
         # convert an array of values into a dataset matrix
         def create_dataset(dataset, look_back=1):

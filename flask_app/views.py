@@ -95,6 +95,8 @@ def send_xlxs_data():
 		return jsonify(success=True)
 	return jsonify(success=False)
 
+
+
 @main.route('/send_wpi_ods', methods = ['POST'])
 def send_ods_data():
 	if request.method == 'POST':

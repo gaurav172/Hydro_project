@@ -11,8 +11,8 @@ Tool for Droought Prediction, Estimating and Predicting Water Pollution Index (W
 
 ### Start Backend
 - cd ../flask_app
-- Create virtual environment with `python3 -m venv venv`			
--`source venv/bin/activate` to activate the virtual environment
+- Create virtual environment with `python3 -m venv venv`
+- `source venv/bin/activate` to activate the virtual environment
 - pip3 install requirements.txt
 - export FLASK_APP=.
 - export FLASK_DEBUG=1
