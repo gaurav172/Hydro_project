@@ -44,14 +44,15 @@ import {
 // core components
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import Footer from "components/Footer/Footer.js";
+import { withWindowState } from 'react-window-state';
 
 class WPICsv extends React.Component {
   state = {
     data : [],
     xlxs_file: "Upload XLXS File", 
     ods_file: "Upload  ODS File",
-    canvas_width: 1000,
-    canvas_height: 550,
+    canvas_width: 1000 / 1792 * window.innerWidth,
+    canvas_height: 0.6 * window.innerHeight,
     threshold : -1.5,
     type: "features"
   };
@@ -59,6 +60,16 @@ class WPICsv extends React.Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onChange = this.onChange.bind(this); 
+  }
+
+  static getDerivedStateFromProps(props, current_state) {
+    if (current_state.canvas_width !== props.win.width * 1000 / 1792 || current_state.canvas_height !== props.win.height * 550 / 716) {
+      return {
+        canvas_width: props.win.width * 1000 / 1792,
+        canvas_height: props.win.height * 0.6
+      }
+    }
+    return null
   }
 
   handleSubmit() {
@@ -271,4 +282,4 @@ class WPICsv extends React.Component {
   }
 }
 
-export default WPICsv;
+export default withWindowState(WPICsv);
