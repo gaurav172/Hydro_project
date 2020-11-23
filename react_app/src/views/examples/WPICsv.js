@@ -18,7 +18,8 @@
 import React from "react";
 import classnames from "classnames";
 import { Link } from "react-router-dom";
-import Featureswpi from './Featureswpi.js'
+import Featureswpi from './Featureswpi.js';
+import Featureswpipred from './Featureswpipred.js'
 // reactstrap components
 import {
   Button,
@@ -48,6 +49,7 @@ import Footer from "components/Footer/Footer.js";
 class WPICsv extends React.Component {
   state = {
     data : [],
+    pred_data : [],
     xlxs_file: "Upload XLXS File", 
     ods_file: "Upload  ODS File",
     canvas_width: 1000,
@@ -102,15 +104,19 @@ class WPICsv extends React.Component {
         })
         .then(res => {
             var data = [];
+            var pred_data = [];
             for (var i = 0; i < res.dates.length; i++) {
                 data.push({ 'date': res.dates[i], 'wpi': res.wpi[i]});
+                pred_data.push({ 'date': res.dates[i], 'wpi': res.wpi[i], 'wpipred': res.pred[i]});
+
             }
             console.log(data);
-            this.setState({ data: data });
+            this.setState({ data: data, pred_data: pred_data});
         })
         .catch(error => console.log(error)
         );
   }
+
 
   uploadFile(file, is_xlsx) {
     var url;
@@ -140,6 +146,10 @@ class WPICsv extends React.Component {
         })
         .catch(error => console.log(error)
         );
+  }
+
+  handleTypeChange = (e) => {
+    this.setState({type:e.target.value});
   }
 
   onChange(e) {
@@ -253,6 +263,22 @@ class WPICsv extends React.Component {
                             onChange={(e) => this.uploadFile(e.target.files[0], false)}
                             />
                         </FormGroup>
+
+                        <FormGroup>
+                          <Label for="displayOption">Select display option</Label>
+                          <div>
+                          <select  style={{textAlignLast : "center", borderRadius: "1em", background : "transparent", width: "280px", color : "inherit", height : "40px"}} onChange={this.handleTypeChange}
+                            type="text"
+                            name="level"
+                            id="displayOption"
+                            required
+                          >
+                          <option value="features">WPI Values</option>
+                          <option value="pred">WPI Values & Prediction</option>
+                          </select> 
+                          </div>
+                        </FormGroup><br></br>
+
                       </Form>
                     </CardBody>
                   </Card>
@@ -262,7 +288,8 @@ class WPICsv extends React.Component {
                 <Col>
                   <Card>
                     <CardBody>
-                      <Featureswpi data={this.state.data} width={this.state.canvas_width} height={this.state.canvas_height}/>
+                      { this.state.type === "pred" && <Featureswpipred data={this.state.pred_data} width={this.state.canvas_width} height={this.state.canvas_height}/>}
+                      { this.state.type === "features" && <Featureswpi data={this.state.data} width={this.state.canvas_width} height={this.state.canvas_height}/>}
                     </CardBody>
                   </Card>
                    </Col>

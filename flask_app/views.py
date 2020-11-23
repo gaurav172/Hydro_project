@@ -82,10 +82,9 @@ def calculate_wpi_single():
 @main.route('/get_wpi_csv', methods=['GET'])
 def calculate_wpi_csv():
 	if request.method == 'GET':
-		wpivalues, time = wpiclass.calculate_wpi()
-		return jsonify({'dates':time, 'wpi' : list(wpivalues)})
+		wpivalues, pred, time = wpiclass.calculate_wpi()
+		return jsonify({'dates': time, 'wpi' : list(wpivalues), 'pred': list(pred)})
 	return jsonify(success = False)
-
 
 
 @main.route('/send_wpi_xlxs', methods = ['POST'])

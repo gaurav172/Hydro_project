@@ -466,13 +466,15 @@ class WPI:
         PollutionDataset.to_csv("PollutionIndexDataSet.csv")
         
         #linImage, barImage = self.get_predictions_plot("PollutionIndexDataSet.csv")
-        return pollutionIndexPerMonth, time
+        pred_data = self.get_predictions_plot("PollutionIndexDataSet.csv")
+
+        #print(pred_data)
+        return pollutionIndexPerMonth, pred_data.tolist(), time
         #return pngImageB64String, linImage, barImage
 
-    def get_predictions_plot(self):
+    def get_predictions_plot(self, csv_file):
 
-        csv_file = pd.read_csv("PollutionIndexDataSet.csv")
-
+       # csv_file = "PollutionIndexDataSet.csv"
         # convert an array of values into a dataset matrix
         def create_dataset(dataset, look_back=1):
             dataX, dataY = [], []
@@ -530,8 +532,8 @@ class WPI:
         # calculate scores
         # shift train predictions for plotting
 
-        fig = Figure(figsize=(18,6))
-        ax = fig.add_subplot(1, 1, 1)
+        # fig = Figure(figsize=(18,6))
+        # ax = fig.add_subplot(1, 1, 1)
         trainPredictPlot = np.empty_like(dataset)
         trainPredictPlot[:, :] = np.nan
         trainPredictPlot[look_back:len(trainPredict)+look_back, :] = trainPredict
@@ -540,47 +542,47 @@ class WPI:
         testPredictPlot[:, :] = np.nan
         testPredictPlot[len(trainPredict)+(look_back*2)+1:len(dataset)-1, :] = testPredict
         # plot baseline and predictions
-        ax.plot(scaler.inverse_transform(dataset),label='Observed data',lw=1.5,color='#1F77B4')
-        ax.plot(trainPredictPlot,label='Training',lw=0.5,c='red')
-        ax.plot(testPredictPlot,label='Testing',lw=0.5,c='green')
-        #plt.setp(ax.get_xticklabels(), fontsize=14)
-        #plt.setp(ax.get_yticklabels(), fontsize=14) 
-        ax.legend(loc='upper right',fontsize=14)
-        ax.set_ylabel('Water Pollution Index', fontsize=14)
-        ax.set_xlabel('Time', fontsize=14)
-        ax.legend(loc='best')
+       #  ax.plot(scaler.inverse_transform(dataset),label='Observed data',lw=1.5,color='#1F77B4')
+       #  ax.plot(trainPredictPlot,label='Training',lw=0.5,c='red')
+       #  ax.plot(testPredictPlot,label='Testing',lw=0.5,c='green')
+       #  #plt.setp(ax.get_xticklabels(), fontsize=14)
+       #  #plt.setp(ax.get_yticklabels(), fontsize=14) 
+       #  ax.legend(loc='upper right',fontsize=14)
+       #  ax.set_ylabel('Water Pollution Index', fontsize=14)
+       #  ax.set_xlabel('Time', fontsize=14)
+       #  ax.legend(loc='best')
 
-       # Convert plot to PNG image
-        pngImage = io.BytesIO()
-        FigureCanvas(fig).print_png(pngImage)
+       # # Convert plot to PNG image
+       #  pngImage = io.BytesIO()
+       #  FigureCanvas(fig).print_png(pngImage)
         
-        # Encode PNG image to base64 string
-        pngImageB64String = "data:image/png;base64,"
-        pngImageB64String += base64.b64encode(pngImage.getvalue()).decode('utf8')
+       #  # Encode PNG image to base64 string
+       #  pngImageB64String = "data:image/png;base64,"
+       #  pngImageB64String += base64.b64encode(pngImage.getvalue()).decode('utf8')
 
         #bar graph creation
-        predicted_data = np.append(trainPredictPlot, testPredictPlot)
-        bins = [0,10,20,30,40,50,60,70,80,90]
-        fig_bar = Figure(figsize=(18,6))
+        predicted_data = np.append(trainPredict, testPredict)
+        # bins = [0,10,20,30,40,50,60,70,80,90]
+        # fig_bar = Figure(figsize=(18,6))
     
-        ax_bar_1 = fig_bar.add_subplot(1, 2, 1)
-        ax_bar_1.hist(scaler.inverse_transform(dataset), bins, histtype = 'bar', label = 'Observed Data', rwidth = 0.8)
-        ax_bar_1.legend(loc = 'upper right', fontsize = 14)
-        ax_bar_1.set_xlabel('Water Pollution Index', fontsize=14)
-        ax_bar_1.set_ylabel('No. of observations', fontsize=14)
+        # ax_bar_1 = fig_bar.add_subplot(1, 2, 1)
+        # ax_bar_1.hist(scaler.inverse_transform(dataset), bins, histtype = 'bar', label = 'Observed Data', rwidth = 0.8)
+        # ax_bar_1.legend(loc = 'upper right', fontsize = 14)
+        # ax_bar_1.set_xlabel('Water Pollution Index', fontsize=14)
+        # ax_bar_1.set_ylabel('No. of observations', fontsize=14)
 
-        ax_bar_2 = fig_bar.add_subplot(1, 2, 2)
-        ax_bar_2.hist(predicted_data, bins, histtype = 'bar', label = 'Predicted Data', rwidth = 0.8)
-        ax_bar_2.legend(loc = 'upper right', fontsize = 14)
-        ax_bar_2.set_xlabel('Water Pollution Index', fontsize=14)
-        ax_bar_2.set_ylabel('No. of observations', fontsize=14)
+        # ax_bar_2 = fig_bar.add_subplot(1, 2, 2)
+        # ax_bar_2.hist(predicted_data, bins, histtype = 'bar', label = 'Predicted Data', rwidth = 0.8)
+        # ax_bar_2.legend(loc = 'upper right', fontsize = 14)
+        # ax_bar_2.set_xlabel('Water Pollution Index', fontsize=14)
+        # ax_bar_2.set_ylabel('No. of observations', fontsize=14)
 
 
-        barPngImage = io.BytesIO()
-        FigureCanvas(fig_bar).print_png(barPngImage)
+        # barPngImage = io.BytesIO()
+        # FigureCanvas(fig_bar).print_png(barPngImage)
 
-        barPngImageB64String = "data:image/png;base64,"
-        barPngImageB64String += base64.b64encode(barPngImage.getvalue()).decode('utf8')
-                           
-        return pngImageB64String, barPngImageB64String
+        # barPngImageB64String = "data:image/png;base64,"
+        # barPngImageB64String += base64.b64encode(barPngImage.getvalue()).decode('utf8')
+        return predicted_data                  
+        #return pngImageB64String, barPngImageB64String
 
