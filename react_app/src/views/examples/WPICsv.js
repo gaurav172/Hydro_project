@@ -18,7 +18,7 @@
 import React from "react";
 import classnames from "classnames";
 import { Link } from "react-router-dom";
-
+import Featureswpi from './Featureswpi.js'
 // reactstrap components
 import {
   Button,
@@ -47,19 +47,22 @@ import Footer from "components/Footer/Footer.js";
 
 class WPICsv extends React.Component {
   state = {
-    data : {level: 1,
-      allow_encrypt : "yes",
-      allow_decrypt : "yes"},
+    data : [],
     xlxs_file: "Upload XLXS File", 
-    ods_file: "Upload  ODS File"
+    ods_file: "Upload  ODS File",
+    canvas_width: 1000,
+    canvas_height: 550,
+    threshold : -1.5,
+    type: "features"
   };
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onChange = this.onChange.bind(this); 
   }
+
   handleSubmit() {
-    var url = new URL("http://localhost:5000/calculate_wpi_csv");
+    var url = "/calculate_wpi_csv";
     const data = new FormData();
     Object.keys(this.state.data).forEach(key => data.append(key, this.state.data[key]))
     const requestOptions = {
@@ -83,18 +86,41 @@ class WPICsv extends React.Component {
         //   console.log(key, response[key])
         // }
     });
+   // this.load_indices();
   }
 
+
+
+  load_indices() {
+    var url = `/get_wpi_csv`
+    fetch(url, {
+        method: 'GET',
+    })
+        .then(response => {
+            console.log('response is', response);
+            return response.json();
+        })
+        .then(res => {
+            var data = [];
+            for (var i = 0; i < res.dates.length; i++) {
+                data.push({ 'date': res.dates[i], 'wpi': res.wpi[i]});
+            }
+            console.log(data);
+            this.setState({ data: data });
+        })
+        .catch(error => console.log(error)
+        );
+  }
 
   uploadFile(file, is_xlsx) {
     var url;
     if (is_xlsx) {
         this.setState({ xlxs_file: file.name });
-        url = 'http://localhost:5000/send_wpi_xlsx';
+        url = '/send_wpi_xlxs';
     }
     else {
         this.setState({ ods_file: file.name });
-        url = 'http://localhost:5000/send_wpi_ods';
+        url = '/send_wpi_ods';
     }
     
     var formData = new FormData();
@@ -108,6 +134,9 @@ class WPICsv extends React.Component {
         .then(response => response.json())
         .then(success => {
             console.log('success is', success);
+            if (!is_xlsx) {
+                this.load_indices();
+            }
         })
         .catch(error => console.log(error)
         );
@@ -224,14 +253,15 @@ class WPICsv extends React.Component {
                             onChange={(e) => this.uploadFile(e.target.files[0], false)}
                             />
                         </FormGroup>
-                    
-                      <Button className="btn-round" color="primary" size="lg">
-                        Calculate WPI
-                      </Button>
                       </Form>
                     </CardBody>
                   </Card>
                 </Col>                
+              </Row>
+              <Row>
+                <Col>
+                   <Featureswpi data={this.state.data} width={this.state.canvas_width} height={this.state.canvas_height}/>
+                </Col>
               </Row>
             </Container>
             </div>

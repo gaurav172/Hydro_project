@@ -424,51 +424,54 @@ class WPI:
         for i in range(0,r):
             pollutionIndexPerMonth.append(calculateOverallPollutionIndex(data[i]))
 
-        fig = Figure(figsize=(30,10))
-        axis = fig.add_subplot(1, 1, 1)
-        axis.set_xlabel("x-axis")
-        axis.set_ylabel("Pollution index")
-        axis.grid()
+        # fig = Figure(figsize=(30,10))
+        # axis = fig.add_subplot(1, 1, 1)
+        # axis.set_xlabel("x-axis")
+        # axis.set_ylabel("Pollution index")
+        # axis.grid()
         
-        axis.plot(time, pollutionIndexPerMonth, "ro-")
-        
-
-        threshold = 4
-        y = np.array(pollutionIndexPerMonth)
-        below_threshold = np.logical_and(y < threshold , y> 2)
-        accepatable_threshold = 2
-        
-        acceptable = np.logical_and(y>accepatable_threshold,y<threshold)
+        # axis.plot(time, pollutionIndexPerMonth, "ro-")
         
 
-        excellent = y<accepatable_threshold
+        # threshold = 4
+        # y = np.array(pollutionIndexPerMonth)
+        # below_threshold = np.logical_and(y < threshold , y> 2)
+        # accepatable_threshold = 2
         
-        x = np.array(time)
+        # acceptable = np.logical_and(y>accepatable_threshold,y<threshold)
+        
 
-        axis.scatter(x[acceptable], y[acceptable], color='yellow') 
-        axis.scatter(x[excellent], y[excellent], color='green') 
+        # excellent = y<accepatable_threshold
+        
+        # x = np.array(time)
 
-        above_threshold = y>4
-        axis.scatter(x[above_threshold], y[above_threshold], color='red') 
+        # axis.scatter(x[acceptable], y[acceptable], color='yellow') 
+        # axis.scatter(x[excellent], y[excellent], color='green') 
+
+        # above_threshold = y>4
+        # axis.scatter(x[above_threshold], y[above_threshold], color='red') 
     
-        # Convert plot to PNG image
-        pngImage = io.BytesIO()
-        FigureCanvas(fig).print_png(pngImage)
+        # # Convert plot to PNG image
+        # pngImage = io.BytesIO()
+        # FigureCanvas(fig).print_png(pngImage)
         
-        # Encode PNG image to base64 string
-        pngImageB64String = "data:image/png;base64,"
-        pngImageB64String += base64.b64encode(pngImage.getvalue()).decode('utf8')
+        # # Encode PNG image to base64 string
+        # pngImageB64String = "data:image/png;base64,"
+        # pngImageB64String += base64.b64encode(pngImage.getvalue()).decode('utf8')
 
         PollutionPeriod = pd.date_range(start='1/4/2006', periods=132, freq='M')
-        PollutionDataset=pd.DataFrame(index = PollutionPeriod,data=pollutionIndexPerMonth)
+        PollutionDataset = pd.DataFrame(index = PollutionPeriod, data=pollutionIndexPerMonth)
         PollutionDataset.rename(columns = {0:'Index'}, inplace = True)
         
         PollutionDataset.to_csv("PollutionIndexDataSet.csv")
         
-        linImage, barImage = self.get_predictions_plot("PollutionIndexDataSet.csv")
-        return pngImageB64String, linImage, barImage
+        #linImage, barImage = self.get_predictions_plot("PollutionIndexDataSet.csv")
+        return pollutionIndexPerMonth, time
+        #return pngImageB64String, linImage, barImage
 
-    def get_predictions_plot(self, csv_file):
+    def get_predictions_plot(self):
+
+        csv_file = pd.read_csv("PollutionIndexDataSet.csv")
 
         # convert an array of values into a dataset matrix
         def create_dataset(dataset, look_back=1):
