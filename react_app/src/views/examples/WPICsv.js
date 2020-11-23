@@ -56,7 +56,8 @@ class WPICsv extends React.Component {
     canvas_width: 1000 / 1792 * window.innerWidth,
     canvas_height: 0.6 * window.innerHeight,
     threshold : -1.5,
-    type: "features"
+    type: "features",
+    is_graph: "false"
   };
   constructor(props) {
     super(props);
@@ -122,7 +123,7 @@ class WPICsv extends React.Component {
 
             }
             console.log(data);
-            this.setState({ data: data, pred_data: pred_data});
+            this.setState({ data: data, pred_data: pred_data, is_graph: "true"});
         })
         .catch(error => console.log(error)
         );
@@ -298,8 +299,8 @@ class WPICsv extends React.Component {
                   </Card>
                 </Col>                
                 <Col className="mb-lg-auto" lg="8">
-                      { this.state.type === "pred" && <Featureswpipred data={this.state.pred_data} width={this.state.canvas_width} height={this.state.canvas_height}/>}
-                      { this.state.type === "features" && <Featureswpi data={this.state.data} width={this.state.canvas_width} height={this.state.canvas_height}/>}
+                      {this.state.is_graph == "true" &&  this.state.type === "pred" && <Featureswpipred data={this.state.pred_data} width={this.state.canvas_width} height={this.state.canvas_height}/>}
+                      {this.state.is_graph == "true" && this.state.type === "features" && <Featureswpi data={this.state.data} width={this.state.canvas_width} height={this.state.canvas_height}/>}
                    </Col>
               </Row>
             </Container>

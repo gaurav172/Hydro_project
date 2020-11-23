@@ -69,7 +69,8 @@ class DroughtTool extends React.Component {
     right_dt: this.max_dt,
     type: "features",
     discharge_file: "Upload discharge dataset",
-    precip_file: "Upload precipitation dataset"
+    precip_file: "Upload precipitation dataset",
+    is_graph: "false"
   };
 
   constructor(props) {
@@ -171,7 +172,7 @@ class DroughtTool extends React.Component {
         for (var i = 0; i < res.dates.length; i++) {
           data.push({ 'date': res.dates[i], 'spi': res.spi[i], 'sdi': res.sdi[i] });
         }
-        this.setState({ data: data });
+        this.setState({ data: data, is_graph: "true", is_graph: "true" });
       })
       .catch(error => console.log(error)
       );
@@ -213,7 +214,7 @@ class DroughtTool extends React.Component {
           inp_data.push({ 'date': res.dates[i], 'discharge': res.discharge[i], 'precip': res.precip[i] });
         }
         console.log(inp_data);
-        this.setState({ inp_data: inp_data });
+        this.setState({ inp_data: inp_data, is_graph: "true" });
       })
       .catch(error => console.log(error)
       );
@@ -235,7 +236,7 @@ class DroughtTool extends React.Component {
           inp_data.push({ 'date': res.dates[i], 'discharge': res.discharge[i], 'precip': res.precip[i] });
         }
         console.log(inp_data);
-        this.setState({ yearly_inp_data: inp_data });
+        this.setState({ yearly_inp_data: inp_data, is_graph: "true" });
       })
       .catch(error => console.log(error)
       );
@@ -446,10 +447,10 @@ class DroughtTool extends React.Component {
                     {/* <Card className="card-register">
                   <CardBody> */}
 
-                      {this.state.type === "indices" && <Indices data={this.state.data} threshold={this.state.threshold} width={this.state.canvas_width} height={this.state.canvas_height} />}
-                      {this.state.type === "features" && <Features data={this.state.inp_data} width={this.state.canvas_width} height={this.state.canvas_height} />}
-                      {this.state.type === "yearly_indices" && <YearlyIndices data={this.state.yearly_data} threshold={this.state.threshold} width={this.state.canvas_width} height={this.state.canvas_height} />}
-                      {this.state.type === "yearly_features" && <YearlyFeatures data={this.state.yearly_inp_data} width={this.state.canvas_width} height={this.state.canvas_height} />}
+                      {this.state.is_graph === "true" &&  this.state.type === "indices" && <Indices data={this.state.data} threshold={this.state.threshold} width={this.state.canvas_width} height={this.state.canvas_height} />}
+                      {this.state.is_graph === "true" &&  this.state.type === "features" && <Features data={this.state.inp_data} width={this.state.canvas_width} height={this.state.canvas_height} />}
+                      {this.state.is_graph === "true" &&  this.state.type === "yearly_indices" && <YearlyIndices data={this.state.yearly_data} threshold={this.state.threshold} width={this.state.canvas_width} height={this.state.canvas_height} />}
+                      {this.state.is_graph === "true" &&  this.state.type === "yearly_features" && <YearlyFeatures data={this.state.yearly_inp_data} width={this.state.canvas_width} height={this.state.canvas_height} />}
                   {/* </CardBody>
                 </Card> */}
                 </Col>
