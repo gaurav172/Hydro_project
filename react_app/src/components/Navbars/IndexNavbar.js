@@ -35,6 +35,8 @@ import {
   Col,
   UncontrolledTooltip
 } from "reactstrap";
+import './../../assets/css/styles.css'
+
 
 class ComponentsNavbar extends React.Component {
   constructor(props) {
@@ -192,18 +194,18 @@ class ComponentsNavbar extends React.Component {
                   <i className="fa fa-cogs d-lg-none d-xl-none" />
                   Tools
                 </DropdownToggle>
-                <DropdownMenu className="dropdown-with-icons">
-                  <DropdownItem tag={Link} to="/drought-tool">
+                <DropdownMenu className="dropdown-with-icons" color="primary">
+                  <DropdownItem tag={Link} to="/drought-tool" className="navitem" color={"black"}> 
                     <i className="tim-icons icon-bullet-list-67" />
                     Drought Tool
                   </DropdownItem>
-                  <DropdownItem tag={Link} to="/wpi-single">
-                    <i className="tim-icons icon-pencil" />
-                    WPI (Single Sample)
-                  </DropdownItem>
-                  <DropdownItem tag={Link} to="/wpi-csv">
+                  <DropdownItem tag={Link} to="/wpi-csv" className="navitem">
                     <i className="tim-icons icon-notes" />
                     WPI (CSV Input)
+                  </DropdownItem>
+                  <DropdownItem tag={Link} to="/wpi-single" className="navitem">
+                    <i className="tim-icons icon-pencil" />
+                    WPI (Single Sample)
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>

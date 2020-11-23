@@ -24,3 +24,7 @@
   .wpibutton{
     text-align: center;
   }
+
+.navitem{
+    color: black !important;
+}
