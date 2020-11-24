@@ -19,3 +19,4 @@ Tool for Droought Prediction, Estimating and Predicting Water Pollution Index (W
 - flask run
 
 Use Google Chrome. There is some problem with form submission in firefox.
+Final Demo : https://drive.google.com/file/d/1r3bTR0SYxwncdSGfcSMO14M-wxZL4cMy/view?usp=sharing
