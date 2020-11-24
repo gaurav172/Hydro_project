@@ -1,7 +1,37 @@
 import React, { Component } from 'react'
 import { LineChart, Tooltip, CartesianGrid, Line, XAxis, YAxis, Legend } from 'recharts';
+import moment from 'moment';
+import DefaultTooltipContent from 'recharts/lib/component/DefaultTooltipContent';
 
+const CustomTooltip = props => {
+    // payload[0] doesn't exist when tooltip isn't visible
+    if (props.payload[0] != null) {
+      // mutating props directly is against react's conventions
+      // so we create a new payload with the name and value fields set to what we want
+      const newPayload = [
+        {
+          name: 'date',
+          color: 'grey',
+          // all your data which created the tooltip is located in the .payload property
+          value: props.payload[0].payload.date,
+          // you can also add "unit" here if you need it
+        },
+        ...props.payload,
+      ];
+  
+      // we render the default, but with our overridden payload
+      return <DefaultTooltipContent {...props} payload={newPayload} />;
+    }
+  
+    // we just render the default
+    return <DefaultTooltipContent {...props} />;
+  };
+
+  
 export default class Features extends Component {
+    formatXAxis = (tickItem) => { 
+        return moment(tickItem).format('MM-YYYY');
+    }
     render() {
         return (
             <LineChart
@@ -14,9 +44,9 @@ export default class Features extends Component {
                 }}
             >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
+                <XAxis dataKey="date" tickFormatter={this.formatXAxis}/>
                 <YAxis />
-                <Tooltip />
+                <Tooltip content={<CustomTooltip />} />             
                 <Legend />
                 <Line type="monotone" dot={false} dataKey="discharge" stroke="#dd88dd" activeDot={{ r: 8 }} />
                 <Line type="monotone" dot={false} dataKey="precip" stroke="#88dd88" />            
