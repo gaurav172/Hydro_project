@@ -1,5 +1,5 @@
 # Hydro_project
-Tool for Droought Prediction, Estimating and Predicting Water Pollution Index (WPI)
+Tool for Drought Prediction, Estimating and Predicting Water Pollution Index (WPI)
 
 # Steps to use tool
 - Clone the repository
